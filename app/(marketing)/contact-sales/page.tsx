@@ -3,7 +3,8 @@
 import { services } from "@/data/services";
 import { cn } from "@/lib/utils";
 import { SparkleIcon, ChevronUp, X, ChevronDown } from "lucide-react";
-import React, { useState, useEffect } from "react";
+// 1. Import Suspense
+import React, { useState, useEffect, Suspense } from "react"; 
 import { GrReactjs } from "react-icons/gr";
 import { SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiExpress, SiMongodb, SiPostgresql, SiSupabase, SiPrisma, SiWebflow, SiWordpress, SiOpenai, SiZapier, SiN8N, SiFigma, SiDocker, SiGithub } from "react-icons/si";
 import { FaShopify } from "react-icons/fa";
@@ -112,7 +113,7 @@ const LeftSideTestimonial = () => {
       
       <SparkleIcon className="text-indigo-500 mb-4 fill-indigo-500" size={20} />
       <p className="text-base text-slate-300 leading-relaxed italic relative z-10">
-        &quot;At TWJ Labs, we transformed our online presence with a stunning website that truly reflects our brand.&quot;
+        &quot;At TWJ Labs, we transform businesses not just websites&quot;
       </p>
       
       <div className="mt-6 flex items-center gap-3">
@@ -183,7 +184,7 @@ const LeftSideOurWork = () => {
 // --- REUSABLE FORM COMPONENT ---
 
 const ContactForm = ({ className, isMobileExpanded, onMobileClose, serviceInterest, plan, areThereSearchParams }: { className?: string, isMobileExpanded?: boolean, onMobileClose?: () => void, serviceInterest?: string | null, plan?: string | null, areThereSearchParams?: boolean }) => {
-  const ServiceMap: Record<string, string> = {  // 👈 Add ": Record<string, string>" here
+  const ServiceMap: Record<string, string> = {  
     webflow: "Webflow Development",
     wordpress: "WordPress Development",
     ecommerce: "E-commerce Solutions",
@@ -432,9 +433,9 @@ const MobilePeekingForm = () => {
 };
 
 
-// --- MAIN PAGE COMPONENT ---
-
-const ContactSalesPage = () => {
+// --- MAIN PAGE CONTENT (RENAMED) ---
+// 2. Rename the previous ContactSalesPage to ContactSalesContent
+const ContactSalesContent = () => {
   const searchParams = useSearchParams();
   const serviceInterest = searchParams.get('ser-int');
   const plan = searchParams.get('plan');
@@ -479,6 +480,16 @@ const ContactSalesPage = () => {
         <MobilePeekingForm />
     </div>
   );
+};
+
+// 3. Create a new wrapper component that includes the Suspense boundary
+const ContactSalesPage = () => {
+    return (
+        // The fallback UI is displayed while the URL params are being loaded
+        <Suspense fallback={<div className="min-h-screen w-full bg-[#060609]" />}>
+            <ContactSalesContent />
+        </Suspense>
+    );
 };
 
 export default ContactSalesPage;
