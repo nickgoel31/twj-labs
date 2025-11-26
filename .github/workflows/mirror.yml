@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pages: write
+      id-token: write
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v3
+        
 
       - name: Push to Destination
         # We map the secret to a variable here to ensure it loads
