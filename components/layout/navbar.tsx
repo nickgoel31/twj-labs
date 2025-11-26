@@ -234,27 +234,60 @@ const MobileServicesList = ({ onClose }: { onClose: () => void }) => (
         ))}
     </div>
 )
+import {
+  BriefcaseIcon,
+  ShoppingCartIcon,
+  CloudIcon,
+  Cog6ToothIcon,
+  HeartIcon,
+  AcademicCapIcon,
+  TruckIcon,
+  BanknotesIcon,
+  HomeModernIcon,
+  BuildingOffice2Icon,
+  BuildingStorefrontIcon,
+} from '@heroicons/react/24/solid';
+
+const iconMap: { [key: string]: React.ComponentType<React.SVGProps<SVGSVGElement>> } = {
+  BriefcaseIcon,
+  ShoppingCartIcon,
+  CloudIcon,
+  Cog6ToothIcon,
+  HeartIcon,
+  AcademicCapIcon,
+  TruckIcon,
+  BanknotesIcon,
+  HomeModernIcon,
+  BuildingOffice2Icon,
+  BuildingStorefrontIcon,
+};
 
 // Helper for Mobile Use Cases List
-const MobileUseCasesList = ({ onClose }: { onClose: () => void }) => (
+const MobileUseCasesList = ({ onClose }: { onClose: () => void }) => {
+  
+  return (
     <div className="flex flex-col gap-6">
-        {useCases.map((category) => (
+        {useCases.map((category) => 
+        (
             <div key={category.heading}>
                 <h4 className="text-xs font-bold text-white/40 uppercase mb-3">{category.heading}</h4>
                 <div className="flex flex-col gap-3">
-                    {category.cases.map((item) => (
+                    {category.cases.map((item) => {
+                      const IconComponent: React.ComponentType<React.SVGProps<SVGSVGElement>> = iconMap[item.icon];
+                      return (
                          <Link key={item.title} href={`/use-cases/for-${item.link}`} onClick={onClose} className="flex items-center gap-3 text-white/70 hover:text-white">
                           <div className="w-6 h-6 border border-white/10 rounded-sm flex items-center justify-center bg-white/5">
-                            <item.icon className='size-3' />
+                            <IconComponent className='size-3' />
                           </div>
                              <span className="text-sm">{item.title}</span>
                          </Link>
-                    ))}
+                    )})}
                 </div>
             </div>
         ))}
     </div>
 )
+}
 
 
 // ============================================================================
@@ -339,21 +372,23 @@ const UseCasesMegaMenu = () => {
             <div key={category.heading} className={`w-[600px] p-6 space-y-4 ${idx !== useCases.length - 1 ? 'border-r border-white/5' : ''}`}>
               <h3 className="text-white/40 text-[10px] font-bold tracking-widest uppercase">{category.heading}</h3>
               <div className="grid grid-cols-2 gap-6">
-                {category.cases.map((item) => (
+                {category.cases.map((item) => {
+                  const IconComponent: React.ComponentType<React.SVGProps<SVGSVGElement>> = iconMap[item.icon];
+                  return (
                   <Link
                     key={item.title}
                     href={`/use-cases/for-${item.link}`}
                     className="group flex items-start gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors"
                   >
                     <div className="w-8 h-8 shrink-0 rounded border border-white/10 bg-[#1e1e24] flex items-center justify-center group-hover:border-white/10 transition-colors">
-                      <item.icon  className="text-white/80 size-4" />
+                      <IconComponent  className="text-white/80 size-4" />
                     </div>
                     <div>
                       <div className="text-xs font-bold text-white mb-0.5">{item.title}</div>
                       <div className="text-[10px] text-white/50 leading-tight line-clamp-1 group-hover:text-white/70">{item.description}</div>
                     </div>
                   </Link>
-                ))}
+                )})}
               </div>
             </div>
           ))}
