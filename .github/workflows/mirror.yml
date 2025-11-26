@@ -1,25 +1,22 @@
-name: Mirror Sync
+name: Mirror Sync Raw
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  sync-repo:
+  mirror-force:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
+      - name: Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Push to Destination
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.DESTINATION_PAT }}
-        with:
-          source-directory: '.'
-          destination-github-username: 'harshgoel2004work' 
-          destination-repository-name: 'twj-labs' # <--- ENTER THE EXACT REPO NAME HERE
-          user-email: 'your-email@example.com'
-          target-branch: main
+      - name: Force Push to Destination
+        run: |
+          # This command manually constructs the URL using your Secret
+          git remote add destination https://harshgoel2004work:${{ secrets.DESTINATION_PAT }}@github.com/harshgoel2004work/twj-labs.git
+          
+          # This forces the push using that specific URL
+          git push -f destination main
