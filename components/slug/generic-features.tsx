@@ -5,6 +5,7 @@ import { ArrowRightLeft, BarChart2, Key, LucideIcon, Mouse, PenTool, Rocket, Set
 import React, { useRef } from "react";
 import { IconType } from "react-icons";
 import { SiWebflow } from "react-icons/si";
+import CustomBadge from "../shared/custom-badge";
 
 
 
@@ -52,9 +53,15 @@ const GenericFeaturesSection = ({data, title}:{data: FeatureItem[], title: strin
   return (
     <div className="w-full font-manrope relative text-white z-0 px-6 md:px-12 lg:px-24 2xl:px-28 pt-24 2xl:pt-30 pb-8 overflow-hidden">
       <div className="w-full h-full py-14">
-        <h2 className="max-w-7xl pl-4 text-3xl md:text-5xl font-semibold leading-tight text-neutral-200 font-manrope">
+        <div className="flex flex-col md:items-start items-center gap-4 mb-16">
+        
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight md:text-start text-center leading-[1.1] max-w-3xl bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">
           {title}
-        </h2>
+        </h1>
+        <p className="text-white/60 md:text-start text-center max-w-xl">
+          Explore the comprehensive features and services we offer to elevate your digital presence and drive business growth.
+        </p>
+      </div>
 
         {/* DRAGGABLE CONTAINER */}
         <div

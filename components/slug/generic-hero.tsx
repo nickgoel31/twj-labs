@@ -64,26 +64,26 @@ const GenericHeroPage = ({ data }: { data: HeroSection }) => {
   return (
     // Changed h-screen to min-h-screen for mobile safety
     // Adjusted padding: px-6 for mobile, increasing to px-24 for desktop
-    <div className="w-full min-h-screen font-manrope relative text-white z-0 px-6 md:px-12 lg:px-24 2xl:px-28 pt-28 lg:pt-32 pb-12 lg:pb-6 flex flex-col justify-center">
+    <div className="w-full min-h-screen font-manrope relative text-white z-0 px-6 md:px-12 lg:px-24 2xl:px-28 pt-28 lg:pt-32  lg:pb-6 flex flex-col justify-center">
       
       {/* Grid: 1 column on mobile, 2 on Large screens */}
-      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-10 h-full">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2  gap-12 lg:gap-10 h-full">
         
         {/* LEFT SIDE: Content */}
         {/* Removed h-full justify-between to allow natural stacking on mobile */}
-        <div className="w-full flex flex-col items-start justify-between font-manrope space-y-8 lg:space-y-12 order-1">
+        <div className="w-full flex flex-col items-center md:items-start justify-between font-manrope space-y-4 lg:space-y-12 order-1 ">
           
-          <div className="flex flex-col items-start gap-5">
+          <div className="flex flex-col items-center md:items-start gap-5">
             <CustomBadge darkMode={true} title={data.tag} />
             
             {/* Responsive Typography */}
-            <h1 className="text-4xl md:text-5xl lg:text-[48px] 2xl:text-[56px] font-semibold tracking-wide bg-clip-text text-transparent bg-radial from-[#ffffff70] to-[#999fb2] leading-[1.1] md:leading-tight max-w-full lg:max-w-xl z-10">
+            <h1 className="text-4xl md:text-5xl lg:text-[48px] 2xl:text-[56px] font-semibold tracking-wide bg-clip-text text-transparent bg-radial from-[#ffffff70] to-[#999fb2] leading-[1.2] md:leading-tight max-w-full lg:max-w-xl z-10 text-center md:text-left">
               {data.title}
             </h1>
           </div>
 
           <div className="w-full">
-            <p className="text-white/60 text-base 2xl:text-lg font-medium max-w-full lg:max-w-lg z-10 pb-2 leading-relaxed">
+            <p className="text-white/60 text-sm md:text-base 2xl:text-lg font-medium max-w-full lg:max-w-lg z-10 pb-2 leading-relaxed text-center md:text-left">
               {data.description}
             </p>
 

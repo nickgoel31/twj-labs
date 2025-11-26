@@ -2,7 +2,7 @@ import { ArrowUpRight, BarChart3, CheckCircle, SearchIcon, Zap } from "lucide-re
 
 export const SEOScoreCard = () => {
   return (
-    <div className="relative flex flex-col justify-between gap-6 overflow-hidden rounded-xl p-6 bg-white/5 backdrop-blur-lg border border-white/10 shadow-lg w-[70%]">
+    <div className="relative flex flex-col md:h-[60vh] justify-between gap-6 overflow-hidden rounded-xl p-6 bg-white/5 backdrop-blur-lg border border-white/10 shadow-lg md:w-[70%]">
       
       {/* Header Section */}
       <div className="flex items-center justify-between">
@@ -65,7 +65,7 @@ export const SEOScoreCard = () => {
 
 export const SEOSearchBar = () => {
     return (
-        <div className='relative flex space-x-3 overflow-hidden rounded-xl p-4 bg-white/5 backdrop-blur-lg border border-white/10 shadow-lg w-[70%] '>
+        <div className='relative flex space-x-3 overflow-hidden rounded-xl p-4 bg-white/5 backdrop-blur-lg border border-white/10 shadow-lg md:w-[70%] '>
             <SearchIcon size={20} className='text-white/20'/>
             <p className='text-white/40 font-manrope font-medium text-sm'>Best Web Development agency in India</p>
         </div>
