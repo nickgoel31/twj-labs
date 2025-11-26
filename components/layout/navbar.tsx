@@ -23,7 +23,7 @@ const links: LinkItem[] = [
   // { label: 'Work', isMegaMenu: false, href: '/work' },
   // { label: 'About', isMegaMenu: false, href: '/about' },
   {
-    label: 'Company', isMegaMenu: true, href: '/company', megaMenuid: 'company-mega-menu'
+    label: 'Company', isMegaMenu: true, href: '#', megaMenuid: 'company-mega-menu'
   }
 ]
 
