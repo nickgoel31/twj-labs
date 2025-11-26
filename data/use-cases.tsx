@@ -16,7 +16,7 @@ import {
 
 export type UseCase = {
   title: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: string;
   description: string;
   heroHeading: string;
   heroSubheading: string;
@@ -32,7 +32,7 @@ export const useCases: { heading: string; cases: UseCase[] }[] = [
       // ------------------ B2B ------------------ //
       {
         title: 'B2B',
-        icon: BriefcaseIcon,
+        icon: 'BriefcaseIcon',
         description: 'Websites tailored for B2B companies to drive leads and conversions.',
         heroHeading: 'We build stunning B2B websites that convert customers',
         heroSubheading:
@@ -49,7 +49,7 @@ export const useCases: { heading: string; cases: UseCase[] }[] = [
       // ------------------ E-Commerce ------------------ //
       {
         title: 'E-Commerce',
-        icon: ShoppingCartIcon,
+        icon: 'ShoppingCartIcon',
         description: 'High-converting online stores built for performance, UX, and growth.',
         heroHeading: 'We design and build e-commerce experiences that boost revenue',
         heroSubheading:
@@ -66,7 +66,7 @@ export const useCases: { heading: string; cases: UseCase[] }[] = [
       // ------------------ SaaS ------------------ //
       {
         title: 'SaaS',
-        icon: CloudIcon,
+        icon: 'CloudIcon',
         description: 'Landing pages, dashboards, and product experiences built for SaaS companies.',
         heroHeading: 'We help SaaS companies build stunning product experiences',
         heroSubheading:
@@ -83,7 +83,7 @@ export const useCases: { heading: string; cases: UseCase[] }[] = [
       // ------------------ Healthcare ------------------ //
       {
         title: 'Healthcare',
-        icon: HeartIcon,
+        icon: 'HeartIcon',
         description: 'Accessible, trustworthy healthcare websites built to serve patients effectively.',
         heroHeading: 'We create clean, accessible healthcare websites that build trust',
         heroSubheading:
@@ -100,7 +100,7 @@ export const useCases: { heading: string; cases: UseCase[] }[] = [
       // ------------------ Education ------------------ //
       {
         title: 'Education',
-        icon: AcademicCapIcon,
+        icon: 'AcademicCapIcon',
         description: 'Digital experiences for schools, educators, and e-learning platforms.',
         heroHeading: 'We help education brands deliver better learning experiences',
         heroSubheading:
@@ -118,7 +118,7 @@ export const useCases: { heading: string; cases: UseCase[] }[] = [
       // ------------------ Finance / Fintech ------------------ //
       {
         title: 'Finance & FinTech',
-        icon: BanknotesIcon,
+        icon: 'BanknotesIcon',
         description: 'Secure, compliant, and high-trust websites for finance brands.',
         heroHeading: 'We design secure, high-trust digital experiences for finance',
         heroSubheading:
@@ -136,7 +136,7 @@ export const useCases: { heading: string; cases: UseCase[] }[] = [
       // ------------------ Real Estate ------------------ //
       {
         title: 'Real Estate',
-        icon: HomeModernIcon,
+        icon: 'HomeModernIcon',
         description: 'Modern real estate websites with property listings and lead funnels.',
         heroHeading: 'We create modern real-estate sites built to generate leads',
         heroSubheading:
@@ -154,7 +154,7 @@ export const useCases: { heading: string; cases: UseCase[] }[] = [
       // ------------------ Hospitality ------------------ //
       {
         title: 'Hospitality',
-        icon: BuildingStorefrontIcon,
+        icon: 'BuildingStorefrontIcon',
         description: 'Beautiful, conversion-focused websites for hotels and hospitality brands.',
         heroHeading: 'We design hospitality websites built for bookings',
         heroSubheading:

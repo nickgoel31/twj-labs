@@ -1,5 +1,6 @@
 import ArticleClient from "@/components/blog/article-client";
 import { client } from "@/sanity/client";
+import { Metadata, ResolvingMetadata } from "next";
 
 import { notFound } from "next/navigation";
 
@@ -50,6 +51,26 @@ async function getPost(slug: string): Promise<SanityPostResponse | null> {
     }
   `;
   return client.fetch(query, { slug });
+}
+
+
+export async function generateMetadata(
+  { params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Record<string, string | string[]> },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const slug = (await params).slug
+ 
+  // fetch post information
+  const post = await getPost(slug)
+
+  if (!post) {
+    return {};
+  }
+ 
+  return {
+    title: post.title,
+    description: post.subtitle || "Read this insightful blog post.",
+  }
 }
 
 export default async function BlogArticlePage({ params }: { params: Promise<{ slug: string }> }) {

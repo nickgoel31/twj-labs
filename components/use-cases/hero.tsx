@@ -5,9 +5,38 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import CustomBadge from '../shared/custom-badge'
+import {
+  BriefcaseIcon,
+  ShoppingCartIcon,
+  CloudIcon,
+  Cog6ToothIcon,
+  HeartIcon,
+  AcademicCapIcon,
+  TruckIcon,
+  BanknotesIcon,
+  HomeModernIcon,
+  BuildingOffice2Icon,
+  BuildingStorefrontIcon,
+} from '@heroicons/react/24/solid';
+
+const iconMap: { [key: string]: React.ComponentType<React.SVGProps<SVGSVGElement>> } = {
+  BriefcaseIcon,
+  ShoppingCartIcon,
+  CloudIcon,
+  Cog6ToothIcon,
+  HeartIcon,
+  AcademicCapIcon,
+  TruckIcon,
+  BanknotesIcon,
+  HomeModernIcon,
+  BuildingOffice2Icon,
+  BuildingStorefrontIcon,
+};
 
 const UseCasesHeroSection = ({ useCase }: { useCase: UseCase }) => {
   const otherUseCases = useCases.flatMap(section => section.cases).filter(uc => uc.link !== useCase.link);
+
+  const IconComponent: React.ComponentType<React.SVGProps<SVGSVGElement>> = iconMap[useCase.icon];
 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -66,7 +95,7 @@ const UseCasesHeroSection = ({ useCase }: { useCase: UseCase }) => {
             className='w-full h-full object-contain'
           />
           <div className='absolute left-1/2 top-1/2 -translate-1/2 flex flex-col items-center justify-center'>
-            <useCase.icon className='opacity-60 fill-violet-400 size-8 md:size-10 group-hover:opacity-0 transition duration-500' />
+            <IconComponent className='opacity-60 fill-violet-400 size-8 md:size-10 group-hover:opacity-0 transition duration-500' />
             <p className="text-xs absolute opacity-0 group-hover:opacity-40 transition duration-500 text-center whitespace-nowrap">
               {useCase.title}
             </p>
@@ -75,21 +104,26 @@ const UseCasesHeroSection = ({ useCase }: { useCase: UseCase }) => {
 
         {/* --- MOBILE VIEW: Horizontal Scroll List (Replaces floating bubbles) --- */}
         <div className='flex lg:hidden w-full overflow-x-auto gap-4 pb-4 snap-x px-2 scrollbar-hide z-20 justify-start md:justify-center'>
-           {otherUseCases.map((uc) => (
+           {otherUseCases.map((uc) => {
+            const IconComp: React.ComponentType<React.SVGProps<SVGSVGElement>> = iconMap[uc.icon];
+            
+            return (
               <Link 
                 key={uc.link} 
                 href={`/use-cases/for-${uc.link}`}
                 className="flex-shrink-0 w-24 h-24 relative snap-center flex flex-col items-center justify-center bg-white/5 rounded-full border border-white/10"
               >
-                 <uc.icon className="opacity-50 size-6 mb-1 text-violet-300" />
+                 <IconComp className="opacity-50 size-6 mb-1 text-violet-300" />
                  <span className='text-[10px] text-white/50'>{uc.title}</span>
               </Link>
-           ))}
+           )})}
         </div>
 
         {/* --- DESKTOP VIEW: Floating Parallax Bubbles --- */}
         <div className="hidden lg:block w-full h-full absolute top-0 left-0 pointer-events-none">
             {otherUseCases.map((uc, index) => {
+              const IconComp: React.ComponentType<React.SVGProps<SVGSVGElement>> = iconMap[uc.icon];
+
             const isB2B = uc.link === "b2b";
             const activeIsNotB2B = useCase.link !== "b2b";
             const finalTop = isB2B && activeIsNotB2B ? useCase.positions?.top : uc.positions?.top;
@@ -127,7 +161,7 @@ const UseCasesHeroSection = ({ useCase }: { useCase: UseCase }) => {
                     className="w-full h-full object-contain opacity-70 group-hover:opacity-100 transition-all duration-500"
                     />
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center">
-                    <uc.icon className="opacity-30 size-5 group-hover:opacity-0 transition duration-500" />
+                    <IconComp className="opacity-30 size-5 group-hover:opacity-0 transition duration-500" />
                     <p className="text-xs absolute opacity-0 group-hover:opacity-40 transition duration-500 text-center">
                         {uc.title}
                     </p>
