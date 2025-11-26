@@ -1,0 +1,25 @@
+name: Mirror Sync
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  sync-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to Destination
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.DESTINATION_PAT }}
+        with:
+          source-directory: '.'
+          destination-github-username: 'harshgoel2004work' 
+          destination-repository-name: 'twj-labs' # <--- ENTER THE EXACT REPO NAME HERE
+          user-email: 'your-email@example.com'
+          target-branch: main
