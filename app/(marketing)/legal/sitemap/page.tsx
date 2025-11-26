@@ -4,7 +4,24 @@ import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { SparkleIcon, Home, Layers, Briefcase, FileText, Share2, ArrowRight, LucideIcon } from "lucide-react";
+import { servicesForAI } from "@/data/services";
+import { useCases } from "@/data/use-cases";
 
+
+const service = servicesForAI.map((service) => ({
+          url: `https://twjlabs.com${service.url}`,
+          lastModified: new Date("2025-11-26"),
+          name: service.name,
+          href: `${service.url}`,
+      }))
+
+  
+      const useCasesMapped = useCases[0].cases.map((useCase: any) => ({
+          url: `https://twjlabs.com/use-cases/for-${useCase.link}`,
+          lastModified: new Date("2025-11-26"),
+          name: useCase.title,
+          href: `/use-cases/for-${useCase.link}`,
+      }))
 
 // --- SITEMAP DATA STRUCTURE ---
 const sitemapData: { category: string; icon: LucideIcon; links: { name: string; href: string; external?: boolean }[] }[] = [
@@ -14,29 +31,22 @@ const sitemapData: { category: string; icon: LucideIcon; links: { name: string; 
     links: [
       { name: "Home", href: "/" },
       { name: "About Us", href: "/about" },
-      { name: "Contact Sales", href: "/contact" },
+      { name: "Contact Sales", href: "/contact-sales" },
       { name: "Pricing", href: "/pricing" },
+      { name: "Our Work", href: "/our-work" },
+      {name: "Careers", href: "/careers" },
+      { name: "Blog", href: "/blog" },
     ],
   },
   {
     category: "Services",
     icon: Layers,
-    links: [
-      { name: "Web Design", href: "/services/web-design" },
-      { name: "Web Development", href: "/services/web-development" },
-      { name: "E-Commerce", href: "/services/ecommerce" },
-      { name: "SaaS Development", href: "/services/saas" },
-      { name: "SEO & Marketing", href: "/services/seo" },
-    ],
+    links: service,
   },
   {
-    category: "Portfolio",
+    category: "Use Cases",
     icon: Briefcase,
-    links: [
-      { name: "All Projects", href: "/work" },
-      { name: "Case Study: FinTech", href: "/work/fintech" },
-      { name: "Case Study: Health", href: "/work/health" },
-    ],
+    links: useCasesMapped,
   },
   {
     category: "Legal",
@@ -52,13 +62,13 @@ const sitemapData: { category: string; icon: LucideIcon; links: { name: string; 
     icon: Share2,
     links: [
       { name: "LinkedIn", href: "https://linkedin.com", external: true },
-      { name: "Twitter", href: "https://twitter.com", external: true },
-      { name: "Instagram", href: "https://instagram.com", external: true },
+      { name: "Instagram", href: "https://www.instagram.com/twjlabs?igsh=MXA0aHo4Ymt6ZnQ1dg%3D%3D&utm_source=qr", external: true },
     ],
   },
 ];
 
 const SitemapPage = () => {
+  
   return (
     <div className="min-h-screen bg-[#060609] text-white font-manrope selection:bg-indigo-500/30 relative overflow-hidden">
       

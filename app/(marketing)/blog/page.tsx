@@ -11,7 +11,7 @@ const formatDate = (dateString: string) => {
 };
 
 // 2. Fetch Data with GROQ
-async function getPosts() {
+export async function getPosts() {
   const query = `
     *[_type == "post"] | order(publishedAt desc) {
       _id,

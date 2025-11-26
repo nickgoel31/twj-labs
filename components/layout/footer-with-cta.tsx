@@ -95,7 +95,7 @@ const FooterWithCTA = () => {
             <div className='flex flex-col gap-4'>
                 <h3 className='text-sm font-semibold text-white tracking-wide'>Company</h3>
                 <ul className='flex flex-col gap-3'>
-                    {['Home', 'About Us', 'Work', 'Contact'].map((item) => (
+                    {['Home', 'About', 'Work', 'Contact Sales'].map((item) => (
                         <li key={item}>
                              <Link href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`} className='text-sm text-neutral-400 hover:text-white transition-colors duration-200 block hover:tranneutral-x-1 transform'>
                                 {item}
