@@ -2,12 +2,14 @@ import React from 'react'
 
 
 
-import { AppWindow, CodeIcon, GaugeIcon, PaletteIcon, PuzzleIcon, RefreshCcwIcon, ServerIcon, ShieldCheckIcon, ShoppingCartIcon, StoreIcon, WrenchIcon } from 'lucide-react';
+import { AppWindow, CodeIcon, GaugeIcon, PaletteIcon, PuzzleIcon, RefreshCcwIcon, ServerIcon, ShieldCheckIcon, ShoppingCartIcon, StoreIcon, WrenchIcon , Code2Icon, PlugIcon, DatabaseIcon, LayoutIcon, RepeatIcon, MessageSquareIcon, SparklesIcon, BrainIcon} from 'lucide-react';
 import { FaCode, FaPencilRuler, FaRocket, FaSearch, FaShopify } from 'react-icons/fa';
 import { IoColorPalette } from 'react-icons/io5';
 import {  ArrowUpRight, CheckCircle, Database, Zap } from 'lucide-react';
 import { FaWebflow } from 'react-icons/fa6';
 import { SearchIcon, LayoutDashboardIcon, PenToolIcon, Share2Icon, MonitorSmartphoneIcon, GitBranchIcon, PlayCircleIcon, BoxesIcon,  SmartphoneIcon } from 'lucide-react'
+import { AccessibilityIcon, AlertTriangleIcon, CheckCircleIcon,  DropletIcon, EyeIcon, FileSearchIcon, KeyboardIcon, SpeakerIcon, TagIcon, BookOpenIcon } from 'lucide-react'
+
 
 
 export const iconMap: { [key: string]: React.ComponentType<{ size?: number, className?: string }> } = {
@@ -42,4 +44,22 @@ export const iconMap: { [key: string]: React.ComponentType<{ size?: number, clas
     PlayCircleIcon, // Lucide: PlayCircle
     BoxesIcon, // Lucide: Boxes or Layers
     SmartphoneIcon, // Lucide: Smartphone or Phone
+    Code2Icon,
+    PlugIcon,
+    LayoutIcon,
+    DatabaseIcon,
+     RepeatIcon,
+     MessageSquareIcon,
+     SparklesIcon,
+     BrainIcon,
+      AccessibilityIcon,
+      AlertTriangleIcon,
+      CheckCircleIcon,
+      DropletIcon,
+      EyeIcon,
+      FileSearchIcon,
+      KeyboardIcon,
+      SpeakerIcon,
+      TagIcon,
+      BookOpenIcon,
 }

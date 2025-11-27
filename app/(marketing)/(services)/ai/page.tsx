@@ -22,7 +22,7 @@ const process: ProcessType[] = [
     description:
       "We analyze your workflow, challenges, and goals to identify where AI and automation can deliver the most impact and efficiency.",
     image: "/our-process/ai/1.png",
-    icon: FaSearch, // or BrainIcon / SparkleIcon
+    icon: 'FaSearch', // or BrainIcon / SparkleIcon
   },
   {
     step: 2,
@@ -30,7 +30,7 @@ const process: ProcessType[] = [
     description:
       "We choose the right AI tools and models—GPT, embeddings, vector search, or automation platforms—and build prototypes to validate functionality.",
     image: "/our-process/ai/2.png",
-    icon: FaPencilRuler, // or WorkflowIcon / CpuIcon
+    icon: 'FaPencilRuler', // or WorkflowIcon / CpuIcon
   },
   {
     step: 3,
@@ -38,7 +38,7 @@ const process: ProcessType[] = [
     description:
       "We integrate AI into your systems and develop automations using APIs, webhooks, and platforms like n8n or Zapier to streamline operations.",
     image: "/our-process/ai/3.png",
-    icon: FaCode, // or BotIcon / ServerIcon
+    icon: 'FaCode', // or BotIcon / ServerIcon
   },
   {
     step: 4,
@@ -46,7 +46,7 @@ const process: ProcessType[] = [
     description:
       "We test accuracy, reliability, and performance, optimize prompts and flows, and deploy your AI system with monitoring and continuous improvements.",
     image: "/our-process/ai/4.png",
-    icon: FaRocket,
+    icon: 'FaRocket',
   },
 ];
 
@@ -55,32 +55,32 @@ const subservices = [
   {
     title: "Chatbot Integration",
     description: "Integrate intelligent AI chatbots into your website or platform to enhance engagement, automate support, and generate leads 24/7.",
-    icon: MessageSquareIcon,
+    icon: 'MessageSquareIcon',
   },
   {
     title: "Workflow Automation",
     description: "Streamline operations by automating repetitive tasks and connecting your tools using platforms like n8n, Make, or Zapier.",
-    icon: RepeatIcon,
+    icon: 'RepeatIcon',
   },
   {
     title: "AI-Powered Personalization",
     description: "Deliver dynamic website experiences tailored to user behavior, preferences, and actions in real-time.",
-    icon: SparklesIcon,
+    icon: 'SparklesIcon',
   },
   {
     title: "Custom AI Integrations",
     description: "Build and integrate custom AI APIs using OpenAI, Anthropic, or Google Gemini for unique business functionality.",
-    icon: PuzzleIcon,
+    icon: 'PuzzleIcon',
   },
   {
     title: "AI Content Generation",
     description: "Automatically create on-brand content, SEO copy, and product descriptions powered by advanced language models.",
-    icon: PenToolIcon,
+    icon: 'PenToolIcon',
   },
   {
     title: "AI Knowledge Bots",
     description: "Deploy intelligent assistants trained on your data to answer FAQs, onboard customers, and support your team.",
-    icon: BrainIcon,
+    icon: 'BrainIcon',
   },
 ];
 
