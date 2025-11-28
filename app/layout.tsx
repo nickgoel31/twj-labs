@@ -15,8 +15,8 @@ export const metadata: Metadata = {
 
   // 2. TITLE: Uses a template for inner pages, optimizing for brand + keywords
   title: {
-    default: "Best Web Development Agency in India | TWJ Labs",
-    template: "%s | TWJ Labs - Premier Web Solutions",
+    default: "Best Web Development Agency in India | The Walking Jumbo",
+    template: "%s | The Walking Jumbo",
   },
 
   // 3. DESCRIPTION: 155-160 characters, keyword-rich but readable
@@ -45,13 +45,14 @@ export const metadata: Metadata = {
     "Software Agency Delhi NCR",
     "The Walking Jumbo",
     "TWJ Labs",
+    "The Walking Jumbo",
   ],
 
   // 5. AUTHORS & OWNERSHIP: Builds E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness)
-  authors: [{ name: "Harsh Goel", url: "https://www.linkedin.com/in/harshgoel" }],
+  authors: [{ name: "Harsh Goel", url: "https://www.linkedin.com/in/harshgoel-cs" }],
   creator: "Harsh Goel",
   publisher: "The Walking Jumbo",
-  applicationName: "TWJ Labs",
+  applicationName: "The Walking Jumbo",
 
   // 6. ROBOTS: Explicitly tell Google to index everything and follow links
   robots: {
@@ -79,15 +80,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: baseUrl,
-    siteName: "TWJ Labs",
-    title: "TWJ Labs | Building the Future of Web",
+    siteName: "The Walking Jumbo",
+    title: "The Walking Jumbo | Building the Future of Web",
     description: "We build pixel-perfect, lightning-fast web applications using Next.js and AI.",
     images: [
       {
-        url: "/og-image.png", // Ensure this image exists in your public folder (1200x630px)
+        url: "/opengraph-image.png", // Ensure this image exists in your public folder (1200x630px)
         width: 1200,
         height: 630,
-        alt: "TWJ Labs - Web Development Agency",
+        alt: "The Walking Jumbo - Web Development Agency",
       },
     ],
   },
@@ -95,18 +96,13 @@ export const metadata: Metadata = {
   // 9. TWITTER: For Twitter Cards
   twitter: {
     card: "summary_large_image",
-    title: "TWJ Labs | Web Development Agency",
+    title: "The Walking Jumbo | Web Development Agency",
     description: "Expert web development services. Next.js, AI, and Custom Solutions.",
-    images: ["/twitter-image.png"], // Ensure this exists (1200x600px)
+    images: ["/opengraph-image.png"], // Ensure this exists (1200x600px)
     creator: "@thewalkingjumbo", // Replace with your actual handle
-    site: "@twjlabs",
+    site: "@thewalkingjumbo",
   },
 
-  // 10. VERIFICATION: Prove ownership to search engines
-  verification: {
-    google: "your-google-site-verification-code",
-    yandex: "yandex-verification-code",
-  },
 
   // 11. CATEGORY: Helps with semantic understanding
   category: "technology",

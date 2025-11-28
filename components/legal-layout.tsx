@@ -73,7 +73,7 @@ const LegalLayout = ({ children, title, lastUpdated }: LegalLayoutProps) => {
               <div className="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-transparent border border-white/5">
                 <p className="text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-2">Have questions?</p>
                 <p className="text-sm text-slate-400 mb-4">Email our legal team regarding any concerns.</p>
-                <a href="mailto:thewalkingjumbo@gmail.com" className="text-sm font-bold text-white hover:underline line-clamp-1">thewalkingjumbo@gmail.com</a>
+                <a href="mailto:harsh.goel@twjlabs.com" className="text-sm font-bold text-white hover:underline line-clamp-1">harsh.goel@twjlabs.com</a>
               </div>
             </div>
           </div>

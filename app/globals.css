@@ -130,6 +130,7 @@
 
 html, body, #__next {
   background-color: black;
+  color: #ffffff;
 }
 
 /* ===== Apple Dark Mode Scrollbar ===== */

@@ -36,10 +36,6 @@ export default async function sitemap() {
         lastModified: new Date(),
     },
     {
-        url: 'https://twjlabs.com/help-desk',
-        lastModified: new Date(),
-    },
-    {
         url: 'https://twjlabs.com/about',
         lastModified: new Date(),
     },

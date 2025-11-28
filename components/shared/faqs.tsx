@@ -55,7 +55,7 @@ const FaqsSection = ({ darkMode = false }: { darkMode?: boolean }) => {
   return (
     <div
       className={cn(
-        'w-full min-h-screen px-6 lg:px-24 font-manrope py-20 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start transition-colors duration-300',
+        'w-full  px-6 lg:px-24 font-manrope py-20 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start transition-colors duration-300',
         darkMode ? 'bg-[#060609] text-white' : 'bg-[#F4F5F9] text-black'
       )}
     >
