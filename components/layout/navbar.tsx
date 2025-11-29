@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, BookOpen, Mail, Layers, Briefcase } from 'lucide-react'; 
+import { Menu, X, ChevronDown, BookOpen, Mail, Layers, Briefcase, InspectionPanel } from 'lucide-react'; 
 import { LogoSymbolWhite } from '../shared/logo'
 import { services } from '@/data/services'
 import { useCases } from '@/data/use-cases'
@@ -402,7 +402,7 @@ const UseCasesMegaMenu = () => {
 const CompanyMegaMenu = () => {
   return (
     <motion.div
-      className="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[30rem]"
+      className="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[35rem]"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
@@ -415,7 +415,7 @@ const CompanyMegaMenu = () => {
 
         <div className="flex z-[2] relative p-1">
           {/* Main Services */}
-          <div className="w-full flex-[2] border-r border-white/5 p-6 space-y-4">
+          <div className="w-full flex-[1.4] border-r border-white/5 p-6 space-y-4">
             <h3 className="text-white/40 text-[10px] font-bold tracking-widest uppercase">Company</h3>
             <div className="">
               
@@ -476,9 +476,22 @@ const CompanyMegaMenu = () => {
                   <div className="w-8 h-8 shrink-0 rounded border border-white/10 bg-[#1e1e24] flex items-center justify-center group-hover:border-white/10 transition-colors">
                     <BookOpen size={14} className="text-white/80" />
                   </div>
-                  <div >
+                  <div className='w-full'>
                     <div className="text-xs font-bold text-white ">Blog</div>
-                    
+                    <div className="text-[10px] text-white/50 leading-tight group-hover:text-white/70">Read our latest articles and insights.</div>
+                  </div>
+                </Link>
+               <Link
+                
+                  href={"/free-website-audit"}
+                  className={`group flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors`}
+                >
+                  <div className="w-8 h-8 shrink-0 rounded border border-white/10 bg-[#1e1e24] flex items-center justify-center group-hover:border-white/10 transition-colors">
+                    <InspectionPanel size={14} className="text-white/80" />
+                  </div>
+                  <div className='w-full'>
+                    <div className="text-xs font-bold text-white ">Free Website Audit</div>
+                    <div className="text-[10px] text-white/50 leading-tight group-hover:text-white/70">Get a detailed analysis</div>
                   </div>
                 </Link>
             </div>
