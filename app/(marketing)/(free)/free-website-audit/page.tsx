@@ -20,8 +20,8 @@ import {
 } from 'lucide-react'
 import CustomBadge from '@/components/shared/custom-badge'
 import TheTWJDifference from '@/components/home/twj-difference'
-import CaseStudiesSection from '@/components/shared/case-studies'
 import FaqsSection from '@/components/shared/faqs'
+import { submitAuditEmail } from '@/actions/submit-audit-email'
 
 // --- REUSABLE COMPONENTS ---
 
@@ -59,7 +59,7 @@ export default function FreeAuditPage() {
     setIsSubmitting(true)
     
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    await submitAuditEmail(formData)
     
     setIsSubmitting(false)
     setIsSuccess(true)
