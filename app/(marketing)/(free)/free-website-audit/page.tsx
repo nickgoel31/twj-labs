@@ -18,6 +18,8 @@ import {
   Mail,
   MessageSquare
 } from 'lucide-react'
+import TheTWJDifference from '@/components/home/twj-difference';
+import FaqsSection from '@/components/shared/faqs';
 
 // --- CONSTANTS ---
 const AUDIT_SUBMITTED_COOKIE = 'audit_submitted_lock';
@@ -66,35 +68,6 @@ const FeatureCard = ({ icon: Icon, title, description, delay }: { icon: any, tit
   </motion.div>
 );
 
-const TheTWJDifference = () => (
-  <section className="py-24 px-6 md:px-12 lg:px-24 bg-[#060609] text-white">
-    <div className="max-w-4xl mx-auto text-center">
-      <h2 className="text-4xl font-bold mb-4">The Walking Jumbo Difference</h2>
-      <p className="text-neutral-400 text-lg mb-10">We don't just point out problems; we provide solutions backed by years of experience in high-growth digital strategy.</p>
-    </div>
-  </section>
-);
-
-const FaqsSection = ({ darkMode = true }: { darkMode?: boolean }) => (
-  <section className={`py-24 px-6 md:px-12 lg:px-24 ${darkMode ? 'bg-[#060609] text-white' : 'bg-[#F4F5F9] text-black'}`}>
-    <div className="max-w-3xl mx-auto">
-      <h2 className="text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
-      <div className="space-y-4">
-        {[
-          { q: "Is this really free?", a: "Yes. Our goal is to demonstrate our value. The audit is genuinely free with no hidden costs or obligation to hire us." },
-          { q: "How long does it take to receive the audit?", a: "We aim for 24-48 hours. Since every audit is manually reviewed, it depends on current volume." },
-          { q: "Is this just an automated report?", a: "Absolutely not. We run initial technical checks, but the core analysis, scoring, and action plan are done manually by an expert strategist." },
-          { q: "What data do you need?", a: "Just your website URL and the best email to send the report to. We don't need access to your analytics or backend." },
-        ].map((faq, index) => (
-          <div key={index} className={`p-5 rounded-xl border ${darkMode ? 'bg-[#0f0f13] border-white/10' : 'bg-white border-neutral-200'}`}>
-            <h3 className={`text-lg font-semibold mb-2 ${darkMode ? 'text-white' : 'text-black'}`}>{faq.q}</h3>
-            <p className={`text-sm ${darkMode ? 'text-neutral-400' : 'text-neutral-500'}`}>{faq.a}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
 
 // --- MAIN PAGE ---
 
