@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
   CheckCircle2, 
@@ -18,14 +18,37 @@ import {
   Mail,
   MessageSquare
 } from 'lucide-react'
-import CustomBadge from '@/components/shared/custom-badge'
-import TheTWJDifference from '@/components/home/twj-difference'
-import FaqsSection from '@/components/shared/faqs'
-import { submitAuditEmail } from '@/actions/submit-audit-email'
 
-// --- REUSABLE COMPONENTS ---
+// --- CONSTANTS ---
+const AUDIT_SUBMITTED_COOKIE = 'audit_submitted_lock';
+const COOKIE_EXPIRY_DAYS = 7;
+
+// --- UTILITY FUNCTIONS FOR COOKIE MANAGEMENT ---
+
+// Function to set the cookie after successful submission
+const setAuditLockCookie = () => {
+  const expiryDate = new Date();
+  expiryDate.setDate(expiryDate.getDate() + COOKIE_EXPIRY_DAYS); 
+  // Set cookie for a week
+  document.cookie = `${AUDIT_SUBMITTED_COOKIE}=true; expires=${expiryDate.toUTCString()}; path=/; SameSite=Lax`;
+};
+
+// Function to check for the presence of the cookie
+const checkAuditLockCookie = () => {
+  // Check if the cookie string contains the lock key
+  return document.cookie.split('; ').some(item => item.startsWith(AUDIT_SUBMITTED_COOKIE));
+};
 
 
+// --- STUBBED/REUSABLE COMPONENTS (for single file execution) ---
+
+const CustomBadge = ({ title, darkMode = true }: { title: string, darkMode?: boolean }) => (
+  <span className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full uppercase tracking-widest ${
+    darkMode ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/30' : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+  }`}>
+    {title}
+  </span>
+);
 
 const FeatureCard = ({ icon: Icon, title, description, delay }: { icon: any, title: string, description: string, delay: number }) => (
   <motion.div 
@@ -41,7 +64,37 @@ const FeatureCard = ({ icon: Icon, title, description, delay }: { icon: any, tit
     <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
     <p className="text-sm text-neutral-400 leading-relaxed">{description}</p>
   </motion.div>
-)
+);
+
+const TheTWJDifference = () => (
+  <section className="py-24 px-6 md:px-12 lg:px-24 bg-[#060609] text-white">
+    <div className="max-w-4xl mx-auto text-center">
+      <h2 className="text-4xl font-bold mb-4">The Walking Jumbo Difference</h2>
+      <p className="text-neutral-400 text-lg mb-10">We don't just point out problems; we provide solutions backed by years of experience in high-growth digital strategy.</p>
+    </div>
+  </section>
+);
+
+const FaqsSection = ({ darkMode = true }: { darkMode?: boolean }) => (
+  <section className={`py-24 px-6 md:px-12 lg:px-24 ${darkMode ? 'bg-[#060609] text-white' : 'bg-[#F4F5F9] text-black'}`}>
+    <div className="max-w-3xl mx-auto">
+      <h2 className="text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+      <div className="space-y-4">
+        {[
+          { q: "Is this really free?", a: "Yes. Our goal is to demonstrate our value. The audit is genuinely free with no hidden costs or obligation to hire us." },
+          { q: "How long does it take to receive the audit?", a: "We aim for 24-48 hours. Since every audit is manually reviewed, it depends on current volume." },
+          { q: "Is this just an automated report?", a: "Absolutely not. We run initial technical checks, but the core analysis, scoring, and action plan are done manually by an expert strategist." },
+          { q: "What data do you need?", a: "Just your website URL and the best email to send the report to. We don't need access to your analytics or backend." },
+        ].map((faq, index) => (
+          <div key={index} className={`p-5 rounded-xl border ${darkMode ? 'bg-[#0f0f13] border-white/10' : 'bg-white border-neutral-200'}`}>
+            <h3 className={`text-lg font-semibold mb-2 ${darkMode ? 'text-white' : 'text-black'}`}>{faq.q}</h3>
+            <p className={`text-sm ${darkMode ? 'text-neutral-400' : 'text-neutral-500'}`}>{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 // --- MAIN PAGE ---
 
@@ -50,33 +103,149 @@ export default function FreeAuditPage() {
     url: '',
     email: '',
     challenges: ''
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [hasSubmittedBefore, setHasSubmittedBefore] = useState(false); // New state for cookie lock
+
+  // Check for the cookie lock on component mount
+  useEffect(() => {
+    if (checkAuditLockCookie()) {
+      setHasSubmittedBefore(true);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    if (hasSubmittedBefore || isSubmitting) return;
+
+    setIsSubmitting(true);
     
-    // Simulate API call
-    await submitAuditEmail(formData)
+    // Simulate API call to submitAuditEmail
+    // In a real app, this would be your server action call: await submitAuditEmail(formData)
+    await new Promise(resolve => setTimeout(resolve, 1500)); 
     
-    setIsSubmitting(false)
-    setIsSuccess(true)
+    // On successful submission:
+    setAuditLockCookie(); // Set the cookie to prevent future submissions
+    setIsSubmitting(false);
+    setIsSuccess(true);
+    setHasSubmittedBefore(true); // Update state immediately
+    
     // Scroll to top to see success message
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const AuditFormContent = () => {
+    if (hasSubmittedBefore) {
+      return (
+        <div className="text-center py-10">
+          <div className="w-20 h-20 bg-indigo-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-indigo-500/20">
+            <CheckCircle2 className="text-indigo-500 w-10 h-10" />
+          </div>
+          <h3 className="text-2xl font-bold text-white mb-2">Audit Already Requested</h3>
+          <p className="text-neutral-400 mb-6">
+            Thank you! You have already claimed your free audit. Please check your inbox for the report, which should arrive within the next {COOKIE_EXPIRY_DAYS} days.
+          </p>
+          <p className="text-xs text-neutral-600">
+            This prevents accidentally submitting the same site multiple times.
+          </p>
+        </div>
+      );
+    }
+
+    if (isSuccess) {
+      return (
+        <div className="text-center py-10">
+          <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/20">
+            <CheckCircle2 className="text-green-500 w-10 h-10" />
+          </div>
+          <h3 className="text-2xl font-bold text-white mb-2">Request Received!</h3>
+          <p className="text-neutral-400 mb-6">
+            Our team has started analyzing <span className="text-white font-medium">{formData.url}</span>. You will receive your custom video and PDF report at <span className="text-white font-medium">{formData.email}</span> within 24-48 hours.
+          </p>
+          <button onClick={() => {
+            setIsSuccess(false);
+            setFormData({ url: '', email: '', challenges: '' });
+          }} className="text-sm text-indigo-400 hover:text-white underline">
+            Submit another site (clears cookie lock)
+          </button>
+        </div>
+      );
+    }
+
+    // Default Form View
+    return (
+      <>
+        <h3 className="text-2xl font-bold mb-2">Claim Your Free Audit</h3>
+        <p className="text-neutral-500 mb-6 text-sm">Takes 20 seconds. Delivered within 24–48 hours.</p>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">Website URL</label>
+            <div className="relative">
+              <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={18} />
+              <input 
+                type="url" 
+                required
+                placeholder="https://yourwebsite.com"
+                className="w-full bg-[#15151a] text-white pl-11 pr-4 py-3 rounded-xl border border-white/5 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all placeholder:text-neutral-600"
+                value={formData.url}
+                onChange={(e) => setFormData({...formData, url: e.target.value})}
+                disabled={isSubmitting}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">Your Email</label>
+            <div className="relative">
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={18} />
+              <input 
+                type="email" 
+                required
+                placeholder="name@company.com"
+                className="w-full bg-[#15151a] text-white pl-11 pr-4 py-3 rounded-xl border border-white/5 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all placeholder:text-neutral-600"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                disabled={isSubmitting}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">What&apos;s not working? (Optional)</label>
+            <div className="relative">
+              <MessageSquare className="absolute left-4 top-4 text-neutral-500" size={18} />
+              <textarea 
+                placeholder="e.g. Traffic is fine but nobody buys..."
+                className="w-full bg-[#15151a] text-white pl-11 pr-4 py-3 rounded-xl border border-white/5 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all placeholder:text-neutral-600 min-h-[80px]"
+                value={formData.challenges}
+                onChange={(e) => setFormData({...formData, challenges: e.target.value})}
+                disabled={isSubmitting}
+              />
+            </div>
+          </div>
+
+          <button 
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-900 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-[0_0_20px_-5px_rgba(124,58,237,0.5)] flex items-center justify-center gap-2 mt-2"
+          >
+            {isSubmitting ? 'Submitting...' : 'Get My Free Audit'} <ArrowRight size={18} />
+          </button>
+          
+          <p className="text-[10px] text-neutral-600 text-center">
+            No credit card required. No obligation.
+          </p>
+        </form>
+      </>
+    );
+  };
+
 
   return (
-    <div className="min-h-screen bg-[#060609] text-white font-manrope overflow-x-hidden selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-[#060609] text-white font-sans overflow-x-hidden selection:bg-indigo-500/30">
       
-      {/* BACKGROUND ELEMENTS */}
-      {/* <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-indigo-600/10 blur-[120px] rounded-full" />
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] opacity-[0.03]" />
-      </div> */}
-
       {/* --- HERO SECTION --- */}
       <section className="relative pt-32 pb-20 px-6 md:px-12 lg:px-24 z-10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -91,7 +260,7 @@ export default function FreeAuditPage() {
               className="text-4xl md:text-5xl mt-2 lg:text-6xl font-bold tracking-tight leading-[1.2] mb-6"
             >
               Discover What’s Holding <br className="hidden md:block"/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-400">Your Site Back.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-white">Your Site Back.</span>
             </motion.h1>
 
             <motion.p 
@@ -109,7 +278,7 @@ export default function FreeAuditPage() {
             </div>
           </div>
 
-          {/* Right: Lead Capture Form */}
+          {/* Right: Lead Capture Form controlled by cookie state */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -120,90 +289,14 @@ export default function FreeAuditPage() {
             <div className="absolute -inset-1 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
             
             <div className="relative bg-[#0c0c10] border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
-              
-              {!isSuccess ? (
-                <>
-                  <h3 className="text-2xl font-bold mb-2">Claim Your Free Audit</h3>
-                  <p className="text-neutral-500 mb-6 text-sm">Takes 20 seconds. Delivered within 24–48 hours.</p>
-                  
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">Website URL</label>
-                      <div className="relative">
-                        <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={18} />
-                        <input 
-                          type="url" 
-                          required
-                          placeholder="https://yourwebsite.com"
-                          className="w-full bg-[#15151a] text-white pl-11 pr-4 py-3 rounded-xl border border-white/5 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all placeholder:text-neutral-600"
-                          value={formData.url}
-                          onChange={(e) => setFormData({...formData, url: e.target.value})}
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">Your Email</label>
-                      <div className="relative">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={18} />
-                        <input 
-                          type="email" 
-                          required
-                          placeholder="name@company.com"
-                          className="w-full bg-[#15151a] text-white pl-11 pr-4 py-3 rounded-xl border border-white/5 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all placeholder:text-neutral-600"
-                          value={formData.email}
-                          onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">What&apos;s not working? (Optional)</label>
-                      <div className="relative">
-                        <MessageSquare className="absolute left-4 top-4 text-neutral-500" size={18} />
-                        <textarea 
-                          placeholder="e.g. Traffic is fine but nobody buys..."
-                          className="w-full bg-[#15151a] text-white pl-11 pr-4 py-3 rounded-xl border border-white/5 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all placeholder:text-neutral-600 min-h-[80px]"
-                          value={formData.challenges}
-                          onChange={(e) => setFormData({...formData, challenges: e.target.value})}
-                        />
-                      </div>
-                    </div>
-
-                    <button 
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-900 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-[0_0_20px_-5px_rgba(124,58,237,0.5)] flex items-center justify-center gap-2 mt-2"
-                    >
-                      {isSubmitting ? 'Submitting...' : 'Get My Free Audit'} <ArrowRight size={18} />
-                    </button>
-                    
-                    <p className="text-[10px] text-neutral-600 text-center">
-                      No credit card required. No obligation.
-                    </p>
-                  </form>
-                </>
-              ) : (
-                <div className="text-center py-10">
-                  <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/20">
-                    <CheckCircle2 className="text-green-500 w-10 h-10" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-2">Request Received!</h3>
-                  <p className="text-neutral-400 mb-6">
-                    Our team has started analyzing <span className="text-white">{formData.url}</span>. You will receive your custom video and PDF report at <span className="text-white">{formData.email}</span> within 24-48 hours.
-                  </p>
-                  <button onClick={() => setIsSuccess(false)} className="text-sm text-indigo-400 hover:text-white underline">
-                    Submit another site
-                  </button>
-                </div>
-              )}
+              {AuditFormContent()}
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* --- WHAT YOU GET GRID --- */}
-      <section className="py-24   relative z-10">
+      <section className="py-24 relative z-10">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <CustomBadge title="What&apos;s Included" darkMode={true} />
@@ -226,29 +319,29 @@ export default function FreeAuditPage() {
               title="2. Design & UX"
               description="Expert analysis of your layout, navigation, structure, and conversion flow. No vague “your design is okay” nonsense — real insights, real fixes."
             />
-             {/* 3. SEO */}
-             <FeatureCard 
+              {/* 3. SEO */}
+              <FeatureCard 
               delay={0.2}
               icon={Search}
               title="3. SEO & Visibility"
               description="We check how well you rank, if Google can crawl your pages, keyword gaps, missing metadata, and whether your competitors are beating you."
             />
-             {/* 4. Content */}
-             <FeatureCard 
+              {/* 4. Content */}
+              <FeatureCard 
               delay={0.25}
               icon={FileText}
               title="4. Content & Messaging"
               description="Does your website communicate value clearly? Is your messaging helping or hurting your conversions? We’ll tell you."
             />
-             {/* 5. Brand */}
-             <FeatureCard 
+              {/* 5. Brand */}
+              <FeatureCard 
               delay={0.3}
               icon={Zap}
               title="5. Brand Positioning"
               description="Get clarity on how your business is perceived vs. how it should be. Are you sending the right signals?"
             />
-             {/* 6. Competitors */}
-             <FeatureCard 
+              {/* 6. Competitors */}
+              <FeatureCard 
               delay={0.35}
               icon={Crosshair}
               title="6. Competitor Benchmark"
@@ -270,43 +363,6 @@ export default function FreeAuditPage() {
         </div>
       </section>
 
-      {/* --- WHY USEFUL (Human vs Robot) --- */}
-      {/* <section className="py-24 px-6 md:px-12 lg:px-24">
-        <div className="max-w-4xl mx-auto bg-[#101015] rounded-3xl p-8 md:p-12 border border-white/5 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/10 blur-[80px] rounded-full pointer-events-none" />
-          
-          <div className="relative z-10">
-            <h2 className="text-3xl font-bold mb-6">Why This Audit Is Actually Useful <span className="text-neutral-500 text-xl block mt-2 font-normal">(Unlike Most ‘Free Reports’)</span></h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-10">
-              <div>
-                <h4 className="text-red-400 font-bold mb-4 flex items-center gap-2"><AlertCircle size={20}/> The Other Guys</h4>
-                <ul className="space-y-3 text-neutral-500">
-                  <li className="flex gap-2">❌ Automated PDF exports</li>
-                  <li className="flex gap-2">❌ Generic advice ("fix H1s")</li>
-                  <li className="flex gap-2">❌ No context on your business</li>
-                  <li className="flex gap-2">❌ Zero human eyes on it</li>
-                </ul>
-              </div>
-              
-              <div className="border-l border-white/10 pl-0 md:pl-12">
-                <h4 className="text-green-400 font-bold mb-4 flex items-center gap-2"><CheckCircle2 size={20}/> The Walking Jumbo</h4>
-                <ul className="space-y-3 text-neutral-300">
-                  <li className="flex gap-2"><CheckCircle2 className="text-green-500 shrink-0" size={20}/> Done manually by real humans</li>
-                  <li className="flex gap-2"><CheckCircle2 className="text-green-500 shrink-0" size={20}/> Clear scoring per category</li>
-                  <li className="flex gap-2"><CheckCircle2 className="text-green-500 shrink-0" size={20}/> Screenshots & specific explanations</li>
-                  <li className="flex gap-2"><CheckCircle2 className="text-green-500 shrink-0" size={20}/> Prioritized Action Plan</li>
-                </ul>
-              </div>
-            </div>
-
-            <p className="mt-8 pt-8 border-t border-white/5 text-center text-indigo-300 font-medium italic">
-              "This is the kind of audit agencies normally charge $150–$500 for."
-            </p>
-          </div>
-        </div>
-      </section> */}
-
       {/* --- WHO IS THIS FOR --- */}
       <section className="pt-20 bg-[#F4F5F9] text-black border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
@@ -317,29 +373,29 @@ export default function FreeAuditPage() {
                <p className="text-neutral-500 text-lg mb-8">This isn&apos;t for everyone. But if you are serious about growth, this is your starting line.</p>
                
                <div className="space-y-4">
-                  {[
-                    "Your website isn’t bringing leads or sales",
-                    "You’re getting traffic but no conversions",
-                    "Your site feels slow, clunky or outdated",
-                    "You suspect your SEO is weak (or non-existent)",
-                    "You’re planning a redesign or rebuild soon",
-                    "You want a professional evaluation before investing"
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-4 p-4 bg-black/5 rounded-xl border border-white/5">
-                      <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center shrink-0 text-indigo-400">
-                        <User size={16} />
-                      </div>
-                      <span className="font-medium">{item}</span>
-                    </div>
-                  ))}
+                 {[
+                   "Your website isn’t bringing leads or sales",
+                   "You’re getting traffic but no conversions",
+                   "Your site feels slow, clunky or outdated",
+                   "You suspect your SEO is weak (or non-existent)",
+                   "You’re planning a redesign or rebuild soon",
+                   "You want a professional evaluation before investing"
+                 ].map((item, i) => (
+                   <div key={i} className="flex items-center gap-4 p-4 bg-black/5 rounded-xl border border-white/5">
+                     <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center shrink-0 text-indigo-400">
+                       <User size={16} />
+                     </div>
+                     <span className="font-medium">{item}</span>
+                   </div>
+                 ))}
                </div>
             </div>
             
             <div className="relative">
               {/* Timeline Visual */}
-               <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-500 via-indigo-500/20 to-transparent"></div>
-               
-               <div className="space-y-12 relative z-10">
+                <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-500 via-indigo-500/20 to-transparent"></div>
+                
+                <div className="space-y-12 relative z-10">
                   <div className="flex gap-6">
                     <div className="w-16 h-16 rounded-full bg-[#e6e6f4] border-4 border-indigo-500 flex items-center justify-center shrink-0 z-10">
                       <span className="text-xl font-bold">1</span>
@@ -369,7 +425,7 @@ export default function FreeAuditPage() {
                       <p className="text-neutral-500">Within 24-48 hours, a custom PDF arrives in your inbox. No pressure. No hard sales. You decide what to do next.</p>
                     </div>
                   </div>
-               </div>
+                </div>
             </div>
           </div>
         </div>

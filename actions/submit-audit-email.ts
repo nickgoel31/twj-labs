@@ -13,7 +13,7 @@ export async function submitAuditEmail(data: AuditLeadData) {
 
     // 1. Send Email (CRITICAL STEP - Await this for reliable immediate confirmation)
     await sendEmail({
-      to: "sales@twjlabs.com, thewalkingjumbo@gmail.com",
+      to: "thewalkingjumbo@gmail.com, harshgoel2004.work@gmail.com",
       subject: `🔥 NEW WEBSITE AUDIT REQUEST | TWJ LABS`,
       data: data,
       source: 'Audit Form'
@@ -31,7 +31,7 @@ export async function submitAuditEmail(data: AuditLeadData) {
 
     // 3. Immediate Success Return
     // The control flow reaches here right after the email is sent (step 1).
-    return { success: true, id: Date.now() }; 
+    return { success: true, id: Date.now(), pending: false }; 
 
   } catch (error) {
     // This catch block only handles errors from the AWAITED steps (sendEmail)
