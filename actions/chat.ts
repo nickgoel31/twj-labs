@@ -118,23 +118,14 @@ export async function chatAction(history: { role: "user" | "model"; parts: strin
         const action = tools[functionName];
 
         if (action) {
-          console.log(`🤖 Executing tool: ${functionName}`);
           const apiResponse = await action(call.args);
           
-          // --- FIX IS HERE ---
+         
           if (functionName === 'getServices') {
-              // Ensure we don't pass full objects if they have icons. 
-              // Better to just pass what the UI needs, or rely on JSON.stringify stripping functions.
               uiComponent = { type: 'services', data: JSON.parse(apiResponse) };
           } else if (functionName === 'getPricing') {
               uiComponent = { type: 'pricing', data: JSON.parse(apiResponse) };
           } else if (functionName === 'triggerServiceSelector') {
-              
-              // 🔴 OLD ERROR CODE: 
-              // uiComponent = { type: 'serviceSelector', data: services };
-
-              // 🟢 NEW FIXED CODE:
-              // Map to strings only. The frontend expects string[] anyway.
               const serviceNames = servicesForAI.map((s: any) => s.name || s.title);
               uiComponent = { type: 'serviceSelector', data: serviceNames }; 
 

@@ -18,8 +18,7 @@ export async function submitAuditEmail(data: AuditLeadData) {
       data: data,
       source: 'Audit Form'
     })
-    
-    console.log("✅ Email confirmation successful. Returning success to client.");
+
 
     // 2. Start Database Save (FIRE-AND-FORGET)
     // We do NOT use 'await' here. The function returns immediately.
