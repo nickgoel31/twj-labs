@@ -8,7 +8,7 @@ export type OurWorkType = {
     heroImage: string;
     industry: string;
     location: string;
-    website: string;
+    siteUrl: string;
     projectDuration: string;
     problemStatement: string;
     solution: string;

@@ -8,6 +8,15 @@ import Image from 'next/image'
 import ToolsWeUseSection from './tools'
 import CustomBadge from '../shared/custom-badge'
 import { SparklesCore } from '../sparkles'
+import CircularGallery from '../CircularGallery'
+
+// 1. Define your custom images
+const myCustomImages = [
+  { image: 'https://images.unsplash.com/photo-1506744626753-eba7bc3613ee?q=80&w=1600&auto=format&fit=crop', text: 'Nature' },
+  { image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=1600&auto=format&fit=crop', text: 'City' },
+  { image: 'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?q=80&w=1600&auto=format&fit=crop', text: 'Ocean' }
+  // Add as many as you need...
+];
 
 const HeroSection = () => {
   const [tilt, setTilt] = useState(30); // start tilted at 30°
@@ -98,7 +107,7 @@ const HeroSection = () => {
       </div>
 
       {/* VISUAL */}
-      <div className="w-full flex items-center justify-center mb-14 relative z-10 px-4">
+      <div className="w-full flex items-center justify-center mb-14 relative z-10 px-4 ">
         
         {/* LEFT CARD - Hidden on mobile/tablet/small laptops (xl:block) to prevent layout breakage */}
         <div className='hidden xl:block absolute left-1/2 -translate-x-[65%] translate-y-2 three-d-card-1 rounded-lg w-[700px] 2xl:w-[800px] aspect-video p-2 bg-linear-to-b from-[#baa1e3]/7 to-[#e5e5e5]/2 opacity-80 transition-transform duration-200 ease-out'
@@ -150,7 +159,9 @@ const HeroSection = () => {
           <div className="absolute inset-0 rounded-lg pointer-events-none bg-linear-to-t from-[#0b0b0b] to-transparent" />
         </div>
 
-        <div className='absolute -bottom-16 left-0 bg-[#06070d] rounded-full blur-2xl h-48 w-full z-[30]' />
+        
+
+        {/* <div className='absolute -bottom-16 left-0 bg-[#06070d] rounded-full blur-2xl h-48 w-full z-[30]' /> */}
       </div>
 
       <ToolsWeUseSection />

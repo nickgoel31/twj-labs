@@ -1,13 +1,25 @@
 "use client"
 
-import { OurWorkType } from '@/data/work-sample'
 import { SparkleIcon, ArrowUpRight, ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import { motion, Variants } from 'framer-motion'
 import Link from 'next/link'
-import { getPortfolio } from '@/actions/get-portfolio'
-import { safeParse } from '@/components/pricing/pricing-hero'
+import { getSanityCaseStudies } from '@/actions/get-portfolio'
+
+// Define the type based on what our GROQ query returns
+export interface SanityWorkType {
+  _id: string;
+  companyName: string;
+  companyLogo: string;
+  industry: string;
+  description: string;
+  heroImage: string;
+  conversionRate: string;
+  userGrowth: string;
+  technologies: string[];
+  projectType: string;
+}
 
 // Animation variants for the container
 const containerVariants = {
@@ -21,13 +33,13 @@ const containerVariants = {
 }
 
 // Animation variants for individual cards
-const cardVariants:Variants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
 }
 
 const WorkPage = () => {
-    const [portfolio, setPortfolio] = React.useState<OurWorkType[] | undefined>([])
+    const [portfolio, setPortfolio] = React.useState<SanityWorkType[]>([])
     const [loading, setLoading] = React.useState<boolean>(false);
     const [initialLoaded, setInitialLoaded] = React.useState<boolean>(false);
 
@@ -36,13 +48,13 @@ const WorkPage = () => {
         const loadData = async () => {
             setLoading(true);
             try {
-                const portfolio = await getPortfolio();
+                const data = await getSanityCaseStudies();
                 if (!mounted) return;
-                setPortfolio(portfolio);
+                setPortfolio(data);
             } catch (error) {
                 console.error("Error fetching portfolio:", error);
                 if (!mounted) return;
-                setPortfolio(undefined);
+                setPortfolio([]);
             } finally {
                 if (!mounted) return;
                 setLoading(false);
@@ -88,7 +100,7 @@ const WorkPage = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className='text-neutral-400 text-sm md:text-base  font-medium max-w-2xl leading-relaxed'
+                className='text-neutral-400 text-sm md:text-base font-medium max-w-2xl leading-relaxed'
             >
                 Explore a selection of our recent projects that highlight our commitment to quality, innovation, and client satisfaction.
             </motion.p>
@@ -106,15 +118,10 @@ const WorkPage = () => {
             Array.from({ length: 6 }).map((_, idx) => <SkeletonWorkCard key={`skeleton-${idx}`} index={idx} />)
           )}
 
-          {/* If loading after initial load (switching/filtering), show placeholders for existing cards */}
-          {loading && initialLoaded && (portfolio ?? []).length > 0 && (
-            (portfolio ?? []).map((_, idx) => <SkeletonWorkCard key={`skeleton-after-${idx}`} index={idx} />)
-          )}
-
           {/* Render actual portfolio when available and not loading */}
           {!loading && portfolio && portfolio.length > 0 && (
             portfolio.map((item) => (
-              <OurWorkCard key={item.id} work={item} />
+              <OurWorkCard key={item._id} work={item} />
             ))
           )}
 
@@ -149,23 +156,27 @@ const WorkPage = () => {
 export default WorkPage
 
 /* ----------------------
-   OurWorkCard (unchanged visually)
+   OurWorkCard
    ---------------------- */
-const OurWorkCard = ({ work }: { work: OurWorkType }) => {
-  const parsedServices = safeParse(work.services)
+const OurWorkCard = ({ work }: { work: SanityWorkType }) => {
+  // Sanity returns an array directly, so we just fallback to an empty array if it's undefined
+  const parsedServices = work.technologies || []
+  
   return (
-    <div  className='z-20'>
-        <Link href={`/work/${work.id}`} className="block h-full ">
+    <div className='z-20'>
+        <Link href={`/work/${work._id}`} className="block h-full ">
             <div className="group relative bg-[#0c0c12] border border-white/10 rounded-3xl overflow-hidden hover:border-indigo-500/50 transition-all duration-500 h-full flex flex-col">
                 
                 {/* 1. Image Area */}
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
-                    <Image
-                        src={work.heroImage}
-                        alt={work.companyName}
-                        fill
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
+                    {work.heroImage && (
+                        <Image
+                            src={work.heroImage}
+                            alt={work.companyName}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                    )}
                     
                     {/* Overlay on hover */}
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
@@ -173,7 +184,7 @@ const OurWorkCard = ({ work }: { work: OurWorkType }) => {
                     {/* Floating Badge */}
                     <div className="absolute top-4 left-4">
                         <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-black/60 backdrop-blur-md border border-white/10 text-white">
-                            Case Study
+                            {work.projectType}
                         </span>
                     </div>
                 </div>
@@ -185,19 +196,22 @@ const OurWorkCard = ({ work }: { work: OurWorkType }) => {
 
                     <div className="relative z-10 flex justify-between items-start gap-4 mb-4">
                         <div>
-                          <Image 
-                            src={work.companyLogo}
-                          alt={work.companyName}
-                          width={200}
-                          height={200}
-                          className="w-16 object-contain mb-4 mx-2 group-hover:opacity-80 transition-opacity duration-300"
-                          />
-                            {/* <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">
+                          {work.companyLogo ? (
+                            <Image 
+                              src={work.companyLogo}
+                              alt={work.companyName}
+                              width={200}
+                              height={200}
+                              className="w-16 object-contain mb-4 mx-2 group-hover:opacity-80 transition-opacity duration-300"
+                            />
+                          ) : (
+                            <h3 className="text-xl font-bold text-white mb-4 mx-2">
                                 {work.companyName}
-                            </h3> */}
-                            {/* Fallback tags if you don't have them in data, purely visual for now */}
-                            <div className="flex flex-wrap gap-2 text-xs  text-neutral-500 font-mono">
-                                {parsedServices.slice(0,1).map((service, index) => (
+                            </h3>
+                          )}
+                            
+                            <div className="flex flex-wrap gap-2 text-xs text-neutral-500 font-mono">
+                                {parsedServices.slice(0, 2).map((service, index) => (
                                     <span key={index} className="px-2 py-1 bg-white/5 rounded-full">
                                         {service}
                                     </span>
@@ -206,7 +220,7 @@ const OurWorkCard = ({ work }: { work: OurWorkType }) => {
                         </div>
                         
                         {/* Circular Icon Arrow */}
-                        <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-indigo-600 group-hover:border-indigo-600 transition-all duration-300">
+                        <div className="w-10 h-10 shrink-0 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-indigo-600 group-hover:border-indigo-600 transition-all duration-300">
                              <ArrowUpRight size={18} className="text-white group-hover:rotate-45 transition-transform duration-300" />
                         </div>
                     </div>
@@ -234,20 +248,20 @@ const OurWorkCard = ({ work }: { work: OurWorkType }) => {
 const SkeletonWorkCard = ({ index = 0 }: { index?: number }) => {
   return (
     <motion.div variants={cardVariants} initial="hidden" animate="show" transition={{ delay: (index || 0) * 0.03 }}>
-      <div className="group relative bg-[#0c0c12] border border-white/6 rounded-3xl overflow-hidden transition-all duration-500 h-full flex flex-col p-0">
-        <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-800 animate-pulse" />
+      <div className="group relative bg-[#0c0c12] border border-white/10 rounded-3xl overflow-hidden transition-all duration-500 h-full flex flex-col p-0">
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-800/50 animate-pulse" />
 
         <div className="p-6 flex flex-col flex-grow relative">
-          <div className="h-6 w-48 rounded bg-neutral-800 animate-pulse mb-3" />
-          <div className="h-3 w-32 rounded bg-neutral-800 animate-pulse mb-4" />
-
+          <div className="h-6 w-16 rounded-full bg-neutral-800/80 animate-pulse mb-3" />
+          
           <div className="flex flex-wrap gap-2 mb-4">
-            <div className="h-6 w-20 rounded bg-neutral-800 animate-pulse" />
-            <div className="h-6 w-12 rounded bg-neutral-800 animate-pulse" />
+            <div className="h-6 w-20 rounded-full bg-neutral-800/80 animate-pulse" />
+            <div className="h-6 w-16 rounded-full bg-neutral-800/80 animate-pulse" />
           </div>
 
           <div className="mt-auto">
-            <div className="h-12 w-full rounded bg-neutral-800 animate-pulse" />
+            <div className="h-4 w-full rounded bg-neutral-800/50 animate-pulse mb-2" />
+            <div className="h-4 w-3/4 rounded bg-neutral-800/50 animate-pulse" />
           </div>
         </div>
       </div>
