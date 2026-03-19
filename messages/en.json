@@ -370,20 +370,25 @@
       "titlePart2": "Power our Productivity",
       "description": "Our toolkit is made up of the latest and most reliable tech to ensure your project is executed to perfection.",
       "categories": {
-        "automation": "Automation",
-        "communication": "Communication",
-        "cloudStorage": "Cloud Storage",
+        "design": "Design",
+        "development": "Development",
+        "collaboration": "Collaboration",
         "payments": "Payments",
-        "emailMarketing": "Email Marketing",
-        "versionControl": "Version Control"
+        "cloud": "Cloud Services",
+        "ai": "AI & Intelligence"
       },
       "descriptions": {
-        "zapier": "Zapier connects your favorite apps and automates your workflows.",
-        "slack": "Slack is our go-to platform for real-time communication and collaboration.",
-        "dropbox": "Dropbox provides secure cloud storage, enabling us to share files and collaborate.",
-        "stripe": "Stripe is our payment processing tool, providing a secure way to process transactions.",
-        "mailchimp": "Mailchimp helps us craft effective email marketing campaigns to nurture clients.",
-        "github": "GitHub is our version control system, enabling smooth collaboration."
+        "figma": "Figma is our collaborative design tool for crafting pixel-perfect UI/UX.",
+        "framer": "Framer allows us to build high-fidelity interactive prototypes and websites.",
+        "webflow": "Webflow is our go-to for building custom, manageable, and performant sites.",
+        "wordpress": "WordPress powers our scalable content-heavy projects with custom themes.",
+        "nextjs": "Next.js is our core framework for building lightning-fast React applications.",
+        "antigravity": "Antigravity is our custom AI agent that powers our smart automation workflows.",
+        "github": "GitHub is where we manage our version control and collaborative coding.",
+        "stripe": "Stripe provides secure and seamless payment processing for our products.",
+        "google": "Google Cloud and Workspace power our search and productivity ecosystem.",
+        "aws": "AWS provides the scalable cloud infrastructure for our most demanding apps.",
+        "discord": "Discord is where our community and team live, breathe, and collaborate."
       }
     }
   },

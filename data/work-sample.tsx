@@ -1,5 +1,5 @@
 export type OurWorkType = {
-    id: number;
+    id: string | number;
     heroLine?: string;
     companyLogo: string;
     companyName: string;

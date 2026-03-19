@@ -5,6 +5,19 @@ import { motion, Variants } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import CustomBadge from "../shared/custom-badge";
 import { useTranslations } from "next-intl";
+import { 
+  SiFigma, 
+  SiFramer, 
+  SiWebflow, 
+  SiWordpress, 
+  SiNextdotjs, 
+  SiGooglecloud, // Using GoogleCloud as a high-tech placeholder for Antigravity
+  SiGithub, 
+  SiStripe, 
+  SiGoogle, 
+  SiAmazon, 
+  SiDiscord 
+} from "react-icons/si";
 
 /* ─── Animation Variants ─── */
 const containerVariants: Variants = {
@@ -31,58 +44,98 @@ export default function ToolsSection() {
 
   const tools = [
     {
-      name: "Zapier",
-      category: t('categories.automation'),
-      description: t('descriptions.zapier'),
+      name: "Figma",
+      category: t('categories.design'),
+      description: t('descriptions.figma'),
       isPro: true,
-      iconBg: "#ff4f00", // Zapier orange
-      iconText: "zapier",
+      iconBg: "#F24E1E",
+      icon: <SiFigma size={20} className="text-white" />,
     },
     {
-      name: "Slack",
-      category: t('categories.communication'),
-      description: t('descriptions.slack'),
-      isPro: false,
-      iconBg: "#ffffff", // Slack white bg
-      iconText: "slack", 
+      name: "Framer",
+      category: t('categories.design'),
+      description: t('descriptions.framer'),
+      isPro: true,
+      iconBg: "#0055FF",
+      icon: <SiFramer size={20} className="text-white" />,
     },
     {
-      name: "Dropbox",
-      category: t('categories.cloudStorage'),
-      description: t('descriptions.dropbox'),
+      name: "Webflow",
+      category: t('categories.development'),
+      description: t('descriptions.webflow'),
       isPro: false,
-      iconBg: "#0061ff", // Dropbox blue
-      iconText: "box",
+      iconBg: "#146EF5",
+      icon: <SiWebflow size={20} className="text-white" />,
+    },
+    {
+      name: "WordPress",
+      category: t('categories.development'),
+      description: t('descriptions.wordpress'),
+      isPro: false,
+      iconBg: "#21759B",
+      icon: <SiWordpress size={24} className="text-white" />,
+    },
+    {
+      name: "Next.js",
+      category: t('categories.development'),
+      description: t('descriptions.nextjs'),
+      isPro: true,
+      iconBg: "#ffffff",
+      icon: <SiNextdotjs size={24} className="text-black" />,
+    },
+    {
+      name: "Antigravity",
+      category: t('categories.ai'),
+      description: t('descriptions.antigravity'),
+      isPro: true,
+      iconBg: "#ffffff",
+      icon: <SiGooglecloud size={24} className="text-[#4285F4]" />, // Antigravity placeholder
+    },
+    {
+      name: "GitHub",
+      category: t('categories.collaboration'),
+      description: t('descriptions.github'),
+      isPro: false,
+      iconBg: "#ffffff",
+      icon: <SiGithub size={24} className="text-black" />,
     },
     {
       name: "Stripe",
       category: t('categories.payments'),
       description: t('descriptions.stripe'),
-      isPro: false,
-      iconBg: "#635bff", // Stripe purple
-      iconText: "S",
-    },
-    {
-      name: "Mailchimp",
-      category: t('categories.emailMarketing'),
-      description: t('descriptions.mailchimp'),
       isPro: true,
-      iconBg: "#ffe01b", // Mailchimp yellow
-      iconText: "M",
+      iconBg: "#635BFF",
+      icon: <SiStripe size={24} className="text-white" />,
     },
     {
-      name: "Github",
-      category: t('categories.versionControl'),
-      description: t('descriptions.github'),
+      name: "Google",
+      category: t('categories.collaboration'),
+      description: t('descriptions.google'),
       isPro: false,
-      iconBg: "#ffffff", // Github white
-      iconText: "git",
+      iconBg: "#ffffff",
+      icon: <SiGoogle size={20} className="text-[#4285F4]" />,
+    },
+    {
+      name: "AWS",
+      category: t('categories.cloud'),
+      description: t('descriptions.aws'),
+      isPro: true,
+      iconBg: "#FF9900",
+      icon: <SiAmazon size={22} className="text-black" />,
+    },
+    {
+      name: "Discord",
+      category: t('categories.collaboration'),
+      description: t('descriptions.discord'),
+      isPro: false,
+      iconBg: "#5865F2",
+      icon: <SiDiscord size={22} className="text-white" />,
     },
   ];
 
   return (
     <section className="relative w-full bg-black py-24 px-6 md:px-12 overflow-hidden font-sans">
-      
+
       {/* ─── Background Ambient Glows ─── */}
       <div className="pointer-events-none absolute inset-0 z-0 flex justify-center">
         {/* Left Glow Shape */}
@@ -92,12 +145,12 @@ export default function ToolsSection() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl">
-        
+
         {/* ─── Header Section ─── */}
         <div className="flex flex-col items-center text-center mb-16">
-          
+
           {/* ── badge ── */}
-          <CustomBadge title={t('badge')}/>
+          <CustomBadge title={t('badge')} />
 
           {/* ── headline ── */}
           <h2 className="text-center text-[clamp(2rem,5vw,3.5rem)] leading-[1.12] tracking-tight mb-4 mt-5">
@@ -113,7 +166,7 @@ export default function ToolsSection() {
         </div>
 
         {/* ─── Grid Section ─── */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -133,17 +186,11 @@ export default function ToolsSection() {
               {/* Top Row: Icon & Arrow */}
               <div className="flex items-start justify-between mb-8">
                 {/* Simulated Brand Icon (Circle) */}
-                <div 
+                <div
                   className="flex h-12 w-12 items-center justify-center rounded-full text-[10px] font-bold uppercase tracking-tighter text-black/80"
                   style={{ backgroundColor: tool.iconBg }}
                 >
-                  {tool.iconText.length > 3 ? (
-                    <span className="text-white text-[11px] capitalize tracking-normal">{tool.iconText}</span>
-                  ) : (
-                    <span className={`${tool.iconBg === "#ffffff" ? "text-black" : "text-white"} text-lg`}>
-                      {tool.iconText}
-                    </span>
-                  )}
+                  {tool.icon}
                 </div>
 
                 <ArrowUpRight size={18} className="text-white/20 transition-colors duration-300 group-hover:text-white/60" />
