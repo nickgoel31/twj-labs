@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Instagram, ExternalLink, Heart, MessageCircle, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import CustomBadge from '../shared/custom-badge';
 
 interface InstaPost {
   id: string;
@@ -51,17 +52,14 @@ export default function InstagramFeed() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-indigo-400 font-mono text-xs uppercase tracking-[0.2em]">
-              <Instagram size={16} />
-              <span>{t('badge')}</span>
-            </div>
+            <CustomBadge title="Instagram" />
             <h2
-              className="text-4xl md:text-5xl font-bold tracking-tight text-white"
+              className="text-4xl md:text-5xl  tracking-tight text-white"
               style={{ fontFamily: "'Syne', sans-serif" }}
             >
               {t('title')}
             </h2>
-            <p className="text-slate-400 max-w-lg text-lg">{t('description')}</p>
+            <p className="text-neutral-400 max-w-lg text-sm">{t('description')}</p>
           </div>
 
           <a
