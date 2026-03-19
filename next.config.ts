@@ -9,8 +9,8 @@ const bundleAnalyzer = withBundleAnalyzer({
 })
 
 const nextConfig: NextConfig = {
-  images:{
-    domains: ['drive.google.com', 'cdn.sanity.io' ],
+  images: {
+    domains: ['drive.google.com', 'cdn.sanity.io', 'scontent.cdninstagram.com'],
   }
 };
 
