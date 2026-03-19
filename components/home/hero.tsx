@@ -121,9 +121,7 @@ export default function HeroSection() {
                 fontWeight: 300,
               }}
             >
-              {t.rich('title', {
-                br: () => <br />
-              })}
+              Building Experiences for <br /> the web.
             </h1>
 
             {/* Subheading */}
