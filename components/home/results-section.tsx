@@ -19,7 +19,7 @@ function CaseCard({ card, cardWidth }: { card: any, cardWidth: number }) {
 
   return (
     <Link
-      href={`/work/${card._id}`}
+      href={`/en/work/${card._id}`}
       className="group relative flex-shrink-0 aspect-[9/11] rounded-2xl overflow-hidden cursor-pointer select-none p-2"
       style={{
         width: cardWidth,

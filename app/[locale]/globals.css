@@ -7,6 +7,31 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+
+  /* Changed to -50% for seamless looping */
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @theme inline {
   --font-geist-sans: 'Manrope', sans-serif;
   --font-manrope: 'Manrope', sans-serif;
@@ -49,6 +74,10 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Define the animation utility */
+  --animate-marquee-vertical: marquee-vertical var(--duration, 20s) linear infinite;
+  --animate-fade-in-up: fade-in-up 0.6s ease-out forwards;
 }
 
 :root {
@@ -120,16 +149,20 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
-html, body, #__next {
+html,
+body,
+#__next {
   background-color: black;
   color: #ffffff;
 }
@@ -138,7 +171,8 @@ html, body, #__next {
 
 /* Total width (includes the transparent padding) */
 ::-webkit-scrollbar {
-  width: 14px;  /* Slightly wider to allow for padding */
+  width: 14px;
+  /* Slightly wider to allow for padding */
   height: 14px;
 }
 
@@ -150,15 +184,15 @@ html, body, #__next {
 /* The actual scroll thumb */
 ::-webkit-scrollbar-thumb {
   /* 1. Translucent white: Fits perfectly on dark #060609 backgrounds */
-  background-color: rgba(255, 255, 255, 0.15); 
-  
+  background-color: rgba(255, 255, 255, 0.15);
+
   /* 2. Fully rounded pill shape */
-  border-radius: 9999px; 
-  
+  border-radius: 9999px;
+
   /* 3. The Safari Trick: Thick transparent border + content-box clips the background */
-  border: 4px solid transparent; 
+  border: 4px solid transparent;
   background-clip: content-box;
-  
+
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -185,18 +219,16 @@ html, body, #__next {
 
 .three-d-card-1 {
   transform:
-    perspective(75em)
-    rotateX(18deg);
+    perspective(75em) rotateX(18deg);
   box-shadow:
     rgba(22, 31, 39, 0.42) 0px 60px 123px -25px,
     rgba(19, 26, 32, 0.08) 0px 35px 75px -35px;
-  
+
 }
 
 .three-d-card-2 {
   transform:
-    rotateX(50deg)
-    rotateZ(20deg);
+    rotateX(50deg) rotateZ(20deg);
   transform-style: preserve-3d;
   border-radius: 32px;
   box-shadow:
@@ -209,9 +241,7 @@ html, body, #__next {
 
   &:hover {
     transform:
-      translate3d(0px, -16px, 0px)
-      rotateX(51deg)
-      rotateZ(43deg);
+      translate3d(0px, -16px, 0px) rotateX(51deg) rotateZ(43deg);
     box-shadow:
       1px 1px 0 1px #f9f9fb,
       -1px 0 28px 0 rgba(34, 33, 81, 0.01),
@@ -220,16 +250,17 @@ html, body, #__next {
 }
 
 @theme inline {
-  --animate-cell-ripple: cell-ripple var(--duration, 200ms) ease-out none 1
-  var(--delay, 0ms);
- 
+  --animate-cell-ripple: cell-ripple var(--duration, 200ms) ease-out none 1 var(--delay, 0ms);
+
   @keyframes cell-ripple {
     0% {
       opacity: 0.4;
     }
+
     50% {
       opacity: 0.8;
     }
+
     100% {
       opacity: 0.4;
     }
@@ -255,7 +286,7 @@ html, body, #__next {
   overflow: hidden;
   z-index: 1;
 
- 
+
 }
 
 .glow {
@@ -267,13 +298,10 @@ html, body, #__next {
   opacity: 0.5;
 
   /* ✅ Single-color glow with a smooth fade */
-  border-image: conic-gradient(
-      from var(--a),
+  border-image: conic-gradient(from var(--a),
       #5f40f750,
       rgba(142, 42, 176, 0.3),
-      #4b97e950
-    )
-    1;
+      #4b97e950) 1;
 
   filter: blur(1em);
 
@@ -287,9 +315,12 @@ html, body, #__next {
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-none {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 
@@ -319,9 +350,11 @@ html, body, #__next {
     left: 0px;
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     left: 100%;
     opacity: 0;
@@ -333,10 +366,12 @@ html, body, #__next {
     top: -80px;
     opacity: 0;
   }
+
   30% {
     top: 10px;
     opacity: 1;
   }
+
   100% {
     top: 10px;
     opacity: 0;
@@ -348,14 +383,17 @@ html, body, #__next {
     top: 0;
     opacity: 0;
   }
+
   30% {
 
     opacity: 1;
   }
+
   80% {
     top: 100%;
     opacity: 1;
   }
+
   100% {
     top: 100%;
     opacity: 0;
@@ -363,30 +401,36 @@ html, body, #__next {
 }
 
 @keyframes pulse {
-  0%{
-    opacity:0;
+  0% {
+    opacity: 0;
   }
+
   70% {
     opacity: 0.5;
   }
+
   100% {
     opacity: 1;
   }
 }
 
 @keyframes up-and-down {
-  0%{
-     tranform: translateY(0);
+  0% {
+    tranform: translateY(0);
   }
+
   25% {
     transform: translateY(4px);
   }
+
   50% {
     transform: translateY(0);
   }
+
   75% {
     transform: translateY(-4px);
   }
+
   100% {
     transform: translateY(0);
   }
@@ -410,6 +454,7 @@ html, body, #__next {
     transform: perspective(900px) rotateX(16deg) translateY(40px) scale(0.96);
     filter: blur(6px);
   }
+
   100% {
     opacity: 1;
     transform: perspective(900px) rotateX(0deg) translateY(0) scale(1);
@@ -423,6 +468,7 @@ html, body, #__next {
     transform: perspective(900px) rotateX(0deg) translateY(0) scale(1);
     filter: blur(0);
   }
+
   100% {
     opacity: 0;
     transform: perspective(900px) rotateX(-10deg) translateY(-30px) scale(1.05);

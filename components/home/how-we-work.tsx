@@ -165,7 +165,7 @@ export default function ProcessSection() {
                 <div className="relative aspect-square w-full overflow-hidden rounded-3xl border border-white/10 bg-gray-900 shadow-2xl">
                   <Image
                     src="/ww2.svg"
-                    alt="Student working on laptop"
+                    alt="Call"
                     width={1000}
                     height={1000}
                     className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"

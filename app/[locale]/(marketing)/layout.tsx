@@ -8,7 +8,7 @@ import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 import React from 'react'
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
-  // useSmoothScroll(0.06);
+  useSmoothScroll(0.06);
   return (
     <div className='bg-[#060609] font-manrope overflow-x-clip'>
       <Navbar />

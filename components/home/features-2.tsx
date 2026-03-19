@@ -200,7 +200,7 @@ export default function Features2Section() {
   return (
     <section
       className="relative w-full  overflow-hidden px-6 py-24"
-      style={{ fontFamily: "'Syne', sans-serif" }}
+
     >
       {/* ── ambient background bloom ── */}
       <div className="pointer-events-none absolute inset-0">
@@ -233,13 +233,13 @@ export default function Features2Section() {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center">
+      <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center ">
 
         {/* ── badge ── */}
         <CustomBadge title={t('badge')} />
 
         {/* ── headline ── */}
-        <h2 className="text-center text-[clamp(2rem,5vw,3.5rem)] leading-[1.12] tracking-tight mb-4 mt-5">
+        <h2 className="text-center text-[clamp(2rem,5vw,3.5rem)] leading-[1.12] tracking-tight mb-4 mt-5" style={{ fontFamily: "'Syne', sans-serif" }}>
           <span className="text-white">{t('titleLine1')}
           </span>
           <br />
@@ -247,7 +247,7 @@ export default function Features2Section() {
         </h2>
 
         {/* ── sub ── */}
-        <p className="text-center text-[14.5px] leading-relaxed text-white/40 max-w-md mb-9">
+        <p className="text-center text-[14.5px] leading-relaxed text-white/40 max-w-md mb-9" style={{ fontFamily: "'Syne', sans-serif" }}>
           {t('sub')}
         </p>
 
