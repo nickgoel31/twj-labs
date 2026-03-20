@@ -20,39 +20,47 @@ export default async function sitemap() {
     }))
 
     return [{
-        url: 'https://twjlabs.com',
+        url: 'https://twjlabs.com/en',
         lastModified: new Date(),
     },
     {
-        url: 'https://twjlabs.com/pricing',
+        url: 'https://twjlabs.com/en/pricing',
         lastModified: new Date("2025-11-26"),
     },
     {
-        url: 'https://twjlabs.com/blog',
+        url: 'https://twjlabs.com/en/blog',
         lastModified: new Date(),
     },
     {
-        url: 'https://twjlabs.com/contact-sales',
+        url: 'https://twjlabs.com/en/contact-sales',
         lastModified: new Date(),
     },
     {
-        url: 'https://twjlabs.com/about',
+        url: 'https://twjlabs.com/en/about',
         lastModified: new Date(),
     },
     {
-        url: 'https://twjlabs.com/careers',
+        url: 'https://twjlabs.com/en/careers',
         lastModified: new Date(),
     },
     {
-        url: 'https://twjlabs.com/legal/privacy-policy',
+        url: 'https://twjlabs.com/en/legal/privacy-policy',
         lastModified: new Date(),
     },
     {
-        url: 'https://twjlabs.com/legal/sitemap',
+        url: 'https://twjlabs.com/en/legal/sitemap',
         lastModified: new Date(),
     },
     {
-        url: 'https://twjlabs.com/work',
+        url: 'https://twjlabs.com/en/work',
+        lastModified: new Date(),
+    },
+    {
+        url: 'https://twjlabs.com/en/free-website-audit',
+        lastModified: new Date(),
+    },
+    {
+        url: 'https://twjlabs.com/en/go-online',
         lastModified: new Date(),
     },
     ...service, ...blogPosts, ...useCasesMapped]
