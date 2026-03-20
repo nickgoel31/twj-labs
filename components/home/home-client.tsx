@@ -15,6 +15,7 @@ import PricingHero from "@/components/pricing/pricing-section-other";
 import CaseStudiesSection from "@/components/shared/case-studies";
 import FaqsSection from "@/components/shared/faqs";
 import dynamic from "next/dynamic";
+import ComparisonSection from "./new-about-us-section";
 
 
 const WhatWeDoSection = dynamic(() => import('@/components/home/what-we-do'), {
@@ -32,7 +33,8 @@ export default function HomeClient() {
         <div className="bg-[#050508] text-white w-full min-h-screen font-manrope relative">
 
             <HeroSection />
-            <AboutSection />
+            {/* <AboutSection /> */}
+            <ComparisonSection />
             <div className="absolute left-0 w-[99.5vw] h-screen overflow-x-hidden top-[150vh]">
                 <MagicRings
                     color="#441eae"

@@ -30,7 +30,7 @@ export default function FeaturesSection() {
   const t = useTranslations('Home.Features');
 
   return (
-    <section className="bg-[#050505] min-h-screen py-24 px-6 md:px-12 font-sans text-white">
+    <section className=" min-h-screen pb-24 pt-8 px-6 md:px-12 font-sans text-white">
       
       <div className="max-w-6xl mx-auto">
         
