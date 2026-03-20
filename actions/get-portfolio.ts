@@ -4,7 +4,7 @@ import { client } from '@/sanity/client' // <-- Adjust this to wherever your San
 export async function getSanityCaseStudies() {
   // This query fetches all "work" documents and expands the image references into actual URLs
   const query = `*[_type == "work"] | order(_createdAt desc) {
-  "id": _id,
+  _id,
   companyName,
   "companyLogo": logo.asset->url,
   industry,
@@ -26,7 +26,7 @@ export async function getSanityCaseStudies() {
 export async function getSanityCaseStudyById(id: string) {
   // We use $id as a parameter to prevent injection and safely find the matching document
   const query = `*[_type == "work" && _id == $id][0] {
-    "id": _id,
+    _id,
     companyName,
     "companyLogo": logo.asset->url,
     industry,
