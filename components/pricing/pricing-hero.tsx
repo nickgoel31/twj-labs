@@ -151,21 +151,21 @@ const PricingHero = () => {
       {/* Main Container */}
       <div className='relative z-10 max-w-[90rem] mx-auto px-6 md:px-12 lg:px-24 py-24 md:py-32'>
 
-       {/* Header Section */}
+        {/* Header Section */}
         <div className='flex flex-col items-center gap-6 text-center'>
           <CustomBadge title={t('badge')} darkMode={darkMode} />
-          
-           {/* ── headline ── */}
-        <h2 className="text-center text-[clamp(2rem,5vw,3.7rem)] font-medium leading-[1.12] tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>
-          <span className="text-white">{t('titlePart1')}</span>
-          <br />
-          <span className="text-white/30">{t('titlePart2')}</span>
-        </h2>
 
-        {/* ── sub ── */}
-        <p className="text-center text-[14.5px] leading-relaxed text-white/40 max-w-md mb-4">
-          {t('description')}
-        </p>
+          {/* ── headline ── */}
+          <h2 className="text-center text-[clamp(2rem,5vw,3.7rem)] font-medium leading-[1.12] tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>
+            <span className="text-white">Tailored Pricing Plans to</span>
+            <br />
+            <span className="text-white/30">Suit Your Business Needs</span>
+          </h2>
+
+          {/* ── sub ── */}
+          <p className="text-center text-[14.5px] leading-relaxed text-white/40 max-w-md mb-4">
+            All packages are customizable to fit your needs. Let's hop on a call and scope out your project details to find the perfect fit.
+          </p>
         </div>
 
         {/* Navigation Tabs */}
@@ -213,7 +213,7 @@ const PricingHero = () => {
 
               {loading && initialLoaded &&
                 displayedPlans?.map((_, index) => (
-                    <SkeletonCard key={`skeleton-${index}`} index={index} />
+                  <SkeletonCard key={`skeleton-${index}`} index={index} />
                 ))}
 
               {!loading &&
