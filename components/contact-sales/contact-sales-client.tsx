@@ -17,6 +17,7 @@ import { contactFormSubmit } from "@/actions/contact-form-submit";
 import { OurWorkType } from "@/data/work-sample";
 import { getSanityCaseStudies } from "@/actions/get-portfolio";
 import { useTranslations } from "next-intl";
+import { useCurrency } from "@/context/currency-context";
 
 // --- CONSTANTS ---
 const TECHNOLOGIES = [
@@ -202,23 +203,34 @@ const ContactForm = ({ className, isMobileExpanded, onMobileClose, serviceIntere
       serviceInterest ? [ServiceMap[serviceInterest] || serviceInterest] : []
     );
 
+    const { currency: defaultCurrency } = useCurrency();
     const [formData, setFormData] = React.useState({
-      name: "", email: "", company: "", website: "", projectDetails: areThereSearchParams ? t('searchParamsText', { service: ServiceMap[serviceInterest || ""] || serviceInterest || "", plan: plan || "" }) : "", budget: "",
+      name: "", email: "", company: "", website: "", projectDetails: areThereSearchParams ? t('searchParamsText', { service: ServiceMap[serviceInterest || ""] || serviceInterest || "", plan: plan || "" }) : "", budget: "", currency: defaultCurrency,
     });
+
+    React.useEffect(() => {
+        setFormData(prev => ({ ...prev, currency: defaultCurrency }));
+    }, [defaultCurrency]);
     const [submitted, setSubmitted] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setFormData({ ...formData, [e.target.id]: e.target.value });
     };
   
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-      setSubmitted(true);
-      // Here you would typically handle form submission, e.g., send data to a server
-      contactFormSubmit(formData, selectedServices)
-        .then((res) => {
-          setSubmitted(res?.success || false);
-        })
+      setLoading(true);
+      try {
+        const res = await contactFormSubmit(formData, selectedServices);
+        if (res?.success) {
+          setSubmitted(true);
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      } finally {
+        setLoading(false);
+      }
     };
   
     if (submitted) {
@@ -356,23 +368,51 @@ const ContactForm = ({ className, isMobileExpanded, onMobileClose, serviceIntere
         {/* Budget */}
         <div className="space-y-2">
             <label htmlFor="budget" className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t('labels.budget')}</label>
-            <input
-                type="text"
-                id="budget"
-                value={formData.budget}
-                onChange={handleChange}
-                className="w-full bg-[#13131a] border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all placeholder:text-white/20"
-                placeholder={t('placeholders.budget')}
-            />
+            <div className="relative flex items-center">
+                <input
+                    type="text"
+                    id="budget"
+                    value={formData.budget}
+                    onChange={handleChange}
+                    className="w-full bg-[#13131a] border border-white/5 rounded-xl pl-4 pr-32 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all placeholder:text-white/20"
+                    placeholder={t('placeholders.budget')}
+                />
+                <div className="absolute right-2 flex items-center gap-1 bg-[#1a1a24] p-1 rounded-lg border border-white/10">
+                    <button 
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, currency: 'INR' }))}
+                        className={cn(
+                            "px-2 py-1 rounded text-[10px] font-bold transition-all",
+                            formData.currency === 'INR' ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/20" : "text-slate-500 hover:text-slate-300"
+                        )}
+                    >
+                        INR
+                    </button>
+                    <button 
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, currency: 'USD' }))}
+                        className={cn(
+                            "px-2 py-1 rounded text-[10px] font-bold transition-all",
+                            formData.currency === 'USD' ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/20" : "text-slate-500 hover:text-slate-300"
+                        )}
+                    >
+                        USD
+                    </button>
+                </div>
+            </div>
         </div>
   
         {/* Footer Area */}
         <div className="pt-2">
             <button
                 type="submit"
-                className="w-full py-4 rounded-xl text-sm font-bold tracking-wide uppercase bg-[#5449e8] shadow-[inset_0_9px_15px_rgba(0,0,0,0.6)] shadow-violet-400 text-white  hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+                disabled={loading}
+                className={cn(
+                    "w-full py-4 rounded-xl text-sm font-bold tracking-wide uppercase bg-[#5449e8] shadow-[inset_0_9px_15px_rgba(0,0,0,0.6)] shadow-violet-400 text-white  hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300",
+                    loading && "opacity-70 cursor-not-allowed scale-100"
+                )}
             >
-                {t('button')}
+                {loading ? "Sending..." : t('button')}
             </button>
             <p className="text-center text-[10px] text-slate-500 mt-4">
                 {t('footer')}

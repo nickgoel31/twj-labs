@@ -35,6 +35,24 @@ export function useSmoothScroll(ease = 0.08) {
       );
     };
 
+    const onAnchorClick = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement).closest('a[href^="#"]');
+      if (anchor) {
+        const hash = anchor.getAttribute('href');
+        if (hash && hash !== '#') {
+          const el = document.querySelector(hash);
+          if (el) {
+            e.preventDefault();
+            const top = el.getBoundingClientRect().top + window.scrollY;
+            targetY.current = Math.max(
+              0,
+              Math.min(top, document.body.scrollHeight - window.innerHeight)
+            );
+          }
+        }
+      }
+    };
+
     const tick = () => {
       currentY.current = lerp(currentY.current, targetY.current, ease);
 
@@ -48,11 +66,13 @@ export function useSmoothScroll(ease = 0.08) {
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
+    document.addEventListener("click", onAnchorClick);
     rafId.current = requestAnimationFrame(tick);
 
     return () => {
       document.documentElement.style.overflow = "";
       window.removeEventListener("wheel", onWheel);
+      document.removeEventListener("click", onAnchorClick);
       cancelAnimationFrame(rafId.current);
     };
   }, [ease]);

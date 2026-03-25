@@ -79,6 +79,7 @@ const CATEGORY_TITLES: Record<string, string> = {
   'custom-development': 'Custom Development',
   'web-design': 'Web Design',
   accessibility: 'Accessibility',
+  'go-online': 'Go Online',
 }
 
 const mapSanityPlan = (raw: SanityPlan, idx: number): PlanType => ({

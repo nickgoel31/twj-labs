@@ -9,6 +9,7 @@ export type LeadData = {
   contact: string;
   services: string[];
   budget: string;
+  currency?: string;
   website?: string;
   projectDetails?: string;
 };
@@ -137,7 +138,7 @@ async function sendEmail({
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Budget</td>
-          <td style="padding: 10px; border: 1px solid #ddd;">${data.budget}</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">${data.budget} ${data.currency ? `(${data.currency})` : ''}</td>
         </tr>
         <tr style="background-color: #f9f9f9;">
           <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Services</td>

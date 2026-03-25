@@ -1,12 +1,13 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Star, Building2, MousePointer2, BoltIcon } from "lucide-react";
+import { Star, Building2, MousePointer2, Zap, ShieldCheck, Globe2 } from "lucide-react";
 import CaseStudiesSection from "@/components/shared/case-studies";
 import TestimonialsSection from "@/components/home/testimonials";
 import FaqsSection from "@/components/shared/faqs";
 import Image from "next/image";
 import Link from "next/link";
+import WhiteLabelingForm from "./white-labeling-form";
 
 export default function WhiteLabelingClient() {
   const t = useTranslations("WhiteLabeling");
@@ -39,13 +40,12 @@ export default function WhiteLabelingClient() {
             {t('Hero.description')}
           </p>
 
-          <Link
-          href={'/about'}
-          
-          className="w-fit py-3 px-8  rounded-xl text-sm font-semibold bg-[#5449e8] shadow-[inset_0_9px_15px_rgba(0,0,0,0.6)] shadow-violet-400 text-white hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
-        >
-          {t('Hero.cta')}
-        </Link>
+          <a
+            href="#partnership-form"
+            className="w-fit py-3 px-8 rounded-xl text-sm font-semibold bg-[#5449e8] shadow-[inset_0_9px_15px_rgba(0,0,0,0.6)] shadow-violet-400 text-white hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+          >
+            {t('Hero.cta')}
+          </a>
         </div>
 
         {/* Hero Visual Mockup */}
@@ -114,34 +114,43 @@ export default function WhiteLabelingClient() {
 
             {/* Features List */}
             <div className="space-y-10">
-              <div>
-                <h3 className="text-xl font-medium text-white mb-3">
-                  {t('AboutPartners.feature1Title')}
-                </h3>
-                <p className="text-neutral-400 leading-relaxed font-light">
-                  {t('AboutPartners.feature1Desc')}
-                </p>
+              <div className="flex gap-5 group">
+                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-indigo-500/20 group-hover:border-indigo-500/30 transition-all duration-500 ease-out">
+                    <ShieldCheck className="text-indigo-400 group-hover:scale-110 transition-transform duration-500" size={28} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-medium text-white mb-2">
+                    {t('AboutPartners.feature1Title')}
+                  </h3>
+                  <p className="text-neutral-400 leading-relaxed font-light text-sm md:text-base">
+                    {t('AboutPartners.feature1Desc')}
+                  </p>
+                </div>
               </div>
 
-              <div>
-                <h3 className="text-xl font-medium text-white mb-3">
-                  {t('AboutPartners.feature2Title')}
-                </h3>
-                <p className="text-neutral-400 leading-relaxed font-light">
-                  {t('AboutPartners.feature2Desc')}
-                </p>
+              <div className="flex gap-5 group">
+                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-indigo-500/20 group-hover:border-indigo-500/30 transition-all duration-500 ease-out">
+                    <Zap className="text-indigo-400 group-hover:scale-110 transition-transform duration-500" size={28} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-medium text-white mb-2">
+                    {t('AboutPartners.feature2Title')}
+                  </h3>
+                  <p className="text-neutral-400 leading-relaxed font-light text-sm md:text-base">
+                    {t('AboutPartners.feature2Desc')}
+                  </p>
+                </div>
               </div>
             </div>
 
             {/* Action Row */}
             <div className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-8">
-               <Link
-          href={'/contact-sales?forCompanies=white-labeling'}
-          
-          className="w-fit py-3 px-8  rounded-xl text-sm font-semibold bg-[#5449e8] shadow-[inset_0_9px_15px_rgba(0,0,0,0.6)] shadow-violet-400 text-white hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
-        >
-          {t('AboutPartners.cta')}
-        </Link>
+                <a
+                  href="#partnership-form"
+                  className="w-fit py-3 px-8 rounded-xl text-sm font-semibold bg-[#5449e8] shadow-[inset_0_9px_15px_rgba(0,0,0,0.6)] shadow-violet-400 text-white hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+                >
+                  {t('AboutPartners.cta')}
+                </a>
               
               <div className="flex flex-col gap-2">
                 <div className="flex gap-1">
@@ -171,6 +180,12 @@ export default function WhiteLabelingClient() {
           </div>
 
         </div>
+      </section>
+
+      {/* --- PARTNERSHIP FORM SECTION --- */}
+      <section id="partnership-form" className="py-32 px-6 relative max-w-4xl mx-auto scroll-mt-20">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-indigo-600/5 blur-[120px] pointer-events-none rounded-full" />
+        <WhiteLabelingForm />
       </section>
 
       {/* Retained Global Components */}

@@ -3,13 +3,14 @@
 import ColorBends from '@/components/ColorBends'
 import { PlanType, PricingPlanType } from '@/data/pricing-plans'
 import { cn } from '@/lib/utils'
-import { ArrowRight, Check, Sparkles, X } from 'lucide-react'
+import { ArrowRight, Check, ChevronDown, Sparkles, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import React, { useEffect } from 'react'
 import CustomBadge from '@/components/shared/custom-badge'
 import { getPricingPlans } from '@/actions/get-pricing'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import { useCurrency } from '@/context/currency-context'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -25,6 +26,7 @@ type ServiceType =
   | 'custom-development'
   | 'web-design'
   | 'accessibility'
+  | 'go-online'
 
 /**
  * Maps each Sanity category value to its position in the tabs array.
@@ -38,6 +40,7 @@ const SERVICE_ORDER: ServiceType[] = [
   'custom-development',
   'web-design',
   'accessibility',
+  'go-online'
 ]
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -152,8 +155,11 @@ const PricingHero = () => {
       <div className='relative z-10 max-w-[90rem] mx-auto px-6 md:px-12 lg:px-24 py-24 md:py-32'>
 
         {/* Header Section */}
-        <div className='flex flex-col items-center gap-6 text-center'>
-          <CustomBadge title={t('badge')} darkMode={darkMode} />
+        <div className='flex flex-col items-center gap-6 text-center relative'>
+          <div className='absolute top-0 right-0'>
+            <CurrencySwitcher />
+          </div>
+          <CustomBadge title={"Pricing"} darkMode={darkMode} />
 
           {/* ── headline ── */}
           <h2 className="text-center text-[clamp(2rem,5vw,3.7rem)] font-medium leading-[1.12] tracking-tight" style={{ fontFamily: "'Syne',sans-serif" }}>
@@ -299,6 +305,73 @@ const Spinner = () => (
   </svg>
 )
 
+// ─── CurrencySwitcher ────────────────────────────────────────────────────────
+const CurrencySwitcher = () => {
+  const { currency, setCurrency } = useCurrency()
+  const [isOpen, setIsOpen] = React.useState(false)
+  const dropdownRef = React.useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  return (
+    <div className='relative' ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className='flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white text-sm font-medium hover:bg-white/10 transition-all'
+      >
+        <span>{currency === 'INR' ? '₹ INR' : '$ USD'}</span>
+        <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
+          <ChevronDown size={14} />
+        </motion.div>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className='absolute right-0 mt-2 w-32 rounded-xl bg-[#0b090d] border border-white/10 shadow-2xl overflow-hidden z-50'
+          >
+            <button
+              onClick={() => {
+                setCurrency('INR')
+                setIsOpen(false)
+              }}
+              className={cn(
+                'w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-white/5',
+                currency === 'INR' ? 'text-[#5449e8] font-bold' : 'text-white/60',
+              )}
+            >
+              ₹ INR
+            </button>
+            <button
+              onClick={() => {
+                setCurrency('USD')
+                setIsOpen(false)
+              }}
+              className={cn(
+                'w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-white/5',
+                currency === 'USD' ? 'text-[#5449e8] font-bold' : 'text-white/60',
+              )}
+            >
+              $ USD
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
 // ─── PricingCard ──────────────────────────────────────────────────────────────
 
 const PricingCard = ({
@@ -313,8 +386,23 @@ const PricingCard = ({
   activeServiceName?: string
 }) => {
   const t = useTranslations('Pricing');
+  const { currency, exchangeRate } = useCurrency();
   const featuresList = safeParse(plan.features)
   const notIncludedList = safeParse(plan.featuresNotIncluded)
+
+  const formatPrice = (priceStr: string) => {
+    const numericPart = priceStr.replace(/[^0-9]/g, '');
+    if (!numericPart) return priceStr;
+
+    let price = parseInt(numericPart, 10);
+
+    if (currency === 'USD') {
+      price = Math.round(price * 1.5 * exchangeRate);
+      return `$${price.toLocaleString()}`;
+    }
+
+    return `₹${price.toLocaleString()}`;
+  };
 
   return (
     <motion.div
@@ -358,7 +446,7 @@ const PricingCard = ({
         {plan.featured && (
           <div className='absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2'>
             <span className='inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#5449e8] shadow-[inset_0_9px_15px_rgba(0,0,0,0.6)] shadow-violet-400 text-[10px] font-bold uppercase tracking-widest text-white border border-white/20'>
-              <Sparkles size={10} className='fill-white' /> {t('mostPopular')}
+              <Sparkles size={10} className='fill-white' /> Most Popular
             </span>
           </div>
         )}
@@ -368,6 +456,18 @@ const PricingCard = ({
           <h3 className={cn('text-xl font-bold tracking-tight mb-3', darkMode ? 'text-white' : 'text-slate-900')}>
             {plan.name}
           </h3>
+          {plan.price && /\d/.test(plan.price) && plan.price !== 'CONTACT-SALES' && (
+            <div className='mb-4 flex flex-col items-start gap-1'>
+              <span className={cn('text-[10px] font-bold uppercase tracking-widest', darkMode ? 'text-white/30' : 'text-slate-400')}>
+                Starting at
+              </span>
+              <div className='flex items-baseline gap-2'>
+                <span className={cn('text-4xl font-bold tracking-tight', darkMode ? 'text-white' : 'text-slate-900')}>
+                  {formatPrice(plan.price)}
+                </span>
+              </div>
+            </div>
+          )}
           <p className={cn('text-sm leading-relaxed min-h-[40px]', darkMode ? 'text-slate-400' : 'text-slate-500')}>
             {plan.description}
           </p>
@@ -381,7 +481,7 @@ const PricingCard = ({
           {plan.everythingIncludedPrev && (
             <p className='text-xs font-bold uppercase tracking-widest text-indigo-400 mb-4 flex items-center gap-2'>
               <span className='w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse' />
-              {t('everythingPrev')}
+              Everything in the previous, Plus
             </p>
           )}
 
@@ -419,22 +519,21 @@ const PricingCard = ({
 
         {/* CTA */}
         <div className='relative z-10 mt-8 pt-6 border-t border-white/5'>
-          <button
+          <Link
+            href={`/contact-sales?ser-int=${activeServiceName}&plan=${plan.name}`}
             className={cn(
-              'group/btn relative w-full px-5 py-3 rounded-xl text-sm font-bold tracking-wide uppercase overflow-hidden transition-all duration-300 cursor-pointer',
+              'group/btn relative flex items-center justify-center w-full px-5 py-3 rounded-xl text-sm font-bold tracking-wide uppercase overflow-hidden transition-all duration-300 cursor-pointer',
               plan.featured
-                ? 'font-semibold bg-[#5449e8] shadow-[inset_0_9px_15px_rgba(0,0,0,0.6)] shadow-violet-400 cursor-pointer hover:shadow-[inset_0_-8px_15px_rgba(0,0,0,0.6)] text-white hover:shadow-violet-400 transition-all duration-500'
+                ? 'font-semibold bg-[#5449e8] shadow-[inset_0_9px_15px_rgba(0,0,0,0.6)] shadow-violet-400 hover:shadow-[inset_0_-8px_15px_rgba(0,0,0,0.6)] text-white hover:shadow-violet-400 transition-all duration-500'
                 : 'bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20',
             )}
           >
-            <Link href={`/contact-sales?ser-int=${activeServiceName}&plan=${plan.name}`}>
-              <div className='absolute inset-0 -translate-x-full group-hover/btn:translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out z-20' />
-              <span className='relative z-10 flex items-center justify-center gap-2'>
-                {t('cta')}
-                <ArrowRight size={16} className='transition-transform duration-300 group-hover/btn:translate-x-1 text-white' />
-              </span>
-            </Link>
-          </button>
+            <div className='absolute inset-0 -translate-x-full group-hover/btn:translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out z-20' />
+            <span className='relative z-10 flex items-center justify-center gap-2'>
+              Book a call
+              <ArrowRight size={16} className='transition-transform duration-300 group-hover/btn:translate-x-1 text-white' />
+            </span>
+          </Link>
         </div>
       </div>
     </motion.div>

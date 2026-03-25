@@ -437,22 +437,47 @@
   },
   "WhiteLabeling": {
     "Hero": {
-      "badge": "Explore Our Partnership",
-      "titlePart1": "Pioneering AI Innovation",
-      "titlePart2": "with White Labeling!",
-      "description": "TWJ is your trusted agency for creative strategy. We specialize in cutting-edge white-label digital business solutions.",
-      "cta": "View about TWJ",
+      "badge": "Scale Your Agency",
+      "titlePart1": "Premium White-Label",
+      "titlePart2": "Development & AI Automation",
+      "description": "Focus on building client relationships while we handle the heavy lifting. We ship high-performance Next.js apps, Webflow sites, and custom AI workflows under your brand.",
+      "cta": "Become a Partner",
       "workspace": "TWJ Agency Workspace"
     },
     "AboutPartners": {
-      "badge": "About TWJ Partners",
-      "titlePart1": "Elevate Brands with",
-      "titlePart2": "Innovation Tech!",
-      "feature1Title": "Smart Digital Solutions",
-      "feature1Desc": "We combine technology and creativity to build future-ready solutions that help businesses thrive in a competitive landscape.",
-      "feature2Title": "Elevating Brands with Strategy",
-      "feature2Desc": "Our expertise in branding, marketing, and design ensures your business stands out, leaving a lasting impact on your audience.",
-      "cta": "Book an appointment"
+      "badge": "Why Partner with TWJ?",
+      "titlePart1": "Your Invisible",
+      "titlePart2": "Engineering Team",
+      "feature1Title": "Anonymous Excellence",
+      "feature1Desc": "We operate as an extension of your team. No TWJ branding, no direct client contact — just world-class execution delivered on your timeline.",
+      "feature2Title": "Full-Stack Tech Mastery",
+      "feature2Desc": "Leverage our expertise in React, Next.js, and AI automation to offer high-ticket services without the overhead of a full-time in-house team.",
+      "cta": "Contact Partnership Team"
+    },
+    "Form": {
+      "title": "Partner with Us",
+      "description": "Ready to scale your agency? Tell us about your needs and we'll be in touch within 24 hours.",
+      "labels": {
+        "agencyName": "Agency Name",
+        "website": "Agency Website",
+        "email": "Work Email",
+        "services": "Interested Services",
+        "volume": "Approx. Monthly Volume",
+        "details": "Partnership Details"
+      },
+      "placeholders": {
+        "agencyName": "Acme Creative Agency",
+        "website": "https://acme.com",
+        "email": "partnerships@acme.com",
+        "volume": "e.g., 2-4 projects per month",
+        "details": "Tell us about your agency, your typical client profile, and which development or AI services you're looking to offload..."
+      },
+      "button": "Submit Partnership Inquiry",
+      "success": {
+        "title": "Application Received",
+        "description": "Our partnership team will review your application and get back to you shortly.",
+        "button": "Back to Page"
+      }
     }
   },
   "GoOnline": {

@@ -18,6 +18,7 @@ export default defineType({
           { title: 'Custom Development', value: 'custom-development' },
           { title: 'Web Design', value: 'web-design' },
           { title: 'Accessibility', value: 'accessibility' },
+          { title: 'Go Online', value: 'go-online' }
         ],
       },
       validation: (Rule) => Rule.required(),
@@ -67,10 +68,10 @@ export default defineType({
               of: [defineArrayMember({ type: 'string' })],
             }),
             defineField({
-                name: 'missingFeatures',
-                title: 'Missing Features',
-                type: 'array',
-                of: [defineArrayMember({ type: 'string' })],
+              name: 'missingFeatures',
+              title: 'Missing Features',
+              type: 'array',
+              of: [defineArrayMember({ type: 'string' })],
             })
           ],
           preview: {

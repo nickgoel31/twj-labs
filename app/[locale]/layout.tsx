@@ -7,6 +7,7 @@ import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import Script from "next/script";
+import { CurrencyProvider } from "@/context/currency-context";
 
 
 const geistSans = Inter({
@@ -154,7 +155,9 @@ export default async function RootLayout({
         className={`${geistSans.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <CurrencyProvider>
+            {children}
+          </CurrencyProvider>
         </NextIntlClientProvider>
         <Script
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5202236007367090"

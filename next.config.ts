@@ -9,6 +9,7 @@ const bundleAnalyzer = withBundleAnalyzer({
 })
 
 const nextConfig: NextConfig = {
+  devIndicators: false,
   images: {
     remotePatterns: [
       {

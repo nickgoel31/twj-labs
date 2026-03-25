@@ -9,6 +9,7 @@ type FormData = {
     website?: string;
     projectDetails?: string;
     budget?: string;
+    currency?: string;
 }
 
 export async function contactFormSubmit(formData: FormData, selectedServices: string[]) {
@@ -21,6 +22,7 @@ export async function contactFormSubmit(formData: FormData, selectedServices: st
             website: formData.website,
             projectDetails: formData.projectDetails,
             budget: formData.budget || "Not specified",
+            currency: formData.currency,
             services: selectedServices
         }, "Contact Form")
 

@@ -165,6 +165,7 @@ body,
 #__next {
   background-color: black;
   color: #ffffff;
+  scroll-behavior: smooth;
 }
 
 /* ===== Apple Dark Mode Scrollbar ===== */
